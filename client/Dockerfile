@@ -15,8 +15,8 @@ COPY . /var/www
 # Copy existing application directory permissions
 COPY --chown=www-data:www-data . /var/www
 
-# Change timezone
-ENV TZ=Europe/Warsaw
+# Change timezone - Adjust if necessary
+ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Expose port 9000 and start php-fpm server
