@@ -14,9 +14,6 @@ pipeline {
         DB_DATABASE = "${env.PROD_DB_NAME}"
 
         // Define common environment variables here
-        CELERY_BROKER_URL = 'amqp://user:pass@rabbitmqhost//'
-        SCHEDULER_API_URL = 'http://localhost:5000/status'
-        APP_URL = 'http://192.168.1.28/laravel-app'
         RABBITMQ_QUEUE = 'json-cv-builder'
     // Add other Laravel specific environment variables as needed
     }
@@ -35,6 +32,17 @@ pipeline {
                 }
             }
         }
+        stage('Build URL for apps') {
+            steps {
+                script {
+                    // Add enviromental variables witthat will set SCHEDULER_API_URL and APP_URL in following manner
+                    // APP_URL = HOST_IP/IMAGE_NAME
+                    // SCHEDULER_API_URL = HOST_IP/IMAGE_NAME/api/v1/update-job-status
+                    env.APP_URL = "http://${env.HOST_IP}/${env.IMAGE_NAME}"
+                    env.SCHEDULER_API_URL = "http://${env.HOST_IP}/${env.IMAGE_NAME}/api/v1/update-job-status"
+                }
+            }
+        }
         stage('Ensure Traefik is Running') {
             steps {
                 ensureTraefik() // Call the shared library step to ensure Traefik is running
@@ -46,7 +54,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'database-config', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME'),
                      usernamePassword(credentialsId: 'rabbitmq-credentials', passwordVariable: 'RABBITMQ_PASSWORD', usernameVariable: 'RABBITMQ_USER'),
                      string(credentialsId: 'rabbitmq-url-with-credentials', variable: 'CELERY_BROKER_URL'),
-                     string(credentialsId: 'laravel-app-key-resume-builder', variable: 'APP_URL')]) {
+                     string(credentialsId: 'laravel-app-key-resume-builder', variable: 'APP_KEY')]) {
                         // Inject Jenkins environment variables into Docker Compose
                         withEnv([
                         "CELERY_BROKER_URL=${env.CELERY_BROKER_URL}",
@@ -70,7 +78,7 @@ pipeline {
                             // Run Docker Compose
                             sh 'docker-compose up -d'
                     }
-                    }
+                     }
                 }
             }
         }
