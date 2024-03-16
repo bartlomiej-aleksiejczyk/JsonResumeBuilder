@@ -1,5 +1,4 @@
 import os
-import json
 import subprocess
 import requests
 from celery import Celery
@@ -9,11 +8,13 @@ from jinja2 import Environment, FileSystemLoader
 app = Celery('latex_compiler',
              broker=os.environ.get('CELERY_BROKER_URL'))
 
-@app.task(bind=True)
+# Ensure the directory for LaTeX templates is correctly referenced
+templates_directory = os.environ.get('LATEX_TEMPLATE_DIR', '/path /to/templates')
+
+@app.task(bind=True, queue=os.environ.get('RABBITMQ_QUEUE'))
 def compile_latex(self, template_name, data):
-    # Set up the Jinja2 environment with custom delimiters for LaTeX
     env = Environment(
-        loader=FileSystemLoader(TEMPLATE_DIR),
+        loader=FileSystemLoader(templates_directory),
         block_start_string='\BLOCK{',
         block_end_string='}',
         variable_start_string='\VAR{',
@@ -25,34 +26,26 @@ def compile_latex(self, template_name, data):
         trim_blocks=True,
         autoescape=False,
     )
-
-    # Load the LaTeX template using the custom environment
     template = env.get_template(template_name)
-
-    # Render the template with data
     filled_content = template.render(data)
 
-    # Write the filled-in LaTeX code to a new file
     output_filename = 'filled_template.tex'
     with open(output_filename, 'w') as file:
         file.write(filled_content)
 
-    # Compile the LaTeX file into a PDF
     try:
         subprocess.run(['pdflatex', '-interaction=nonstopmode', output_filename], check=True)
         notify_scheduler_api(self.request.id, 'SUCCESS')
     except subprocess.CalledProcessError as error:
         notify_scheduler_api(self.request.id, 'FAILURE', str(error))
-        raise error  # Raising error to acknowledge task failure
+        raise error
 
 def notify_scheduler_api(task_id, status, error_message=None):
-    """Notify the scheduler API about the task status."""
     payload = {'task_id': task_id, 'status': status}
     if error_message:
         payload['error_message'] = error_message
     requests.post(os.environ.get('SCHEDULER_API_URL'), json=payload)
-    
+
 @app.task(bind=True)
 def cancel_task(self, task_id):
-    """Cancel a running task."""
     app.control.revoke(task_id, terminate=True)
