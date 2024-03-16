@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  php_server:
+    build:
+        context: ./client
+        dockerfile: Dockerfile
+    volumes:
+        - ./client:/var/www
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - QUEUE_NAME=${QUEUE_NAME}
+      - TZ=${PHP_TZ-Europe/Warsaw }
+    ports:
+      - "9000:9000"
+    networks:
+      - webnet-resume
+
+  celery_worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile # Replace with the actual Dockerfile name if it's different
+    volumes:
+      - ./worker:/usr/src/app
+    environment:
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+      - SCHEDULER_API_URL=${SCHEDULER_API_URL}
+      - TZ=${WORKER_TIMEZONE}
+    depends_on:
+      - php_server
+    networks:
+      - webnet-resume
+
+networks:
+  webnet-resume:
