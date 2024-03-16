@@ -10,6 +10,7 @@ services:
     environment:
       - APP_NAME=JSON Resume Builder
       - APP_DEPLOYMENT_NAME=${APP_DEPLOYMENT_NAME}
+      - HOST_IP=${HOST_IP}
       - APP_KEY=${APP_KEY}
       - APP_URL=${APP_URL}
       - DB_CONNECTION=pgsql
@@ -34,6 +35,10 @@ services:
       - SCHEDULER_API_URL=${SCHEDULER_API_URL}
     ports:
       - "9000:9000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${APP_DEPLOYMENT_NAME}.rule=Host(`${HOST_IP}`) && PathPrefix(`/${APP_DEPLOYMENT_NAME}`)"
+      - "traefik.http.services.${APP_DEPLOYMENT_NAME}.loadbalancer.server.port=9000"
     networks:
       - webnet-resume
 

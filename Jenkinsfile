@@ -60,6 +60,7 @@ pipeline {
                         "APP_DEPLOYMENT_NAME=${env.IMAGE_NAME}",
                         "CELERY_BROKER_URL=${env.CELERY_BROKER_URL}",
                         "SCHEDULER_API_URL=${env.SCHEDULER_API_URL}",
+                        "HOST_IP=${HOST_IP}",
                         "APP_KEY=${env.APP_KEY}",
                         "APP_URL=${env.APP_URL}",
                         "DB_CONNECTION=${env.DB_CONNECTION}",
