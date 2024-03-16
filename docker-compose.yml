@@ -40,7 +40,7 @@ services:
       - "traefik.http.routers.${APP_DEPLOYMENT_NAME}.rule=Host(`${HOST_IP}`) && PathPrefix(`/${APP_DEPLOYMENT_NAME}`)"
       - "traefik.http.services.${APP_DEPLOYMENT_NAME}.loadbalancer.server.port=9000"
     networks:
-      - default
+      - docker0
       - webnet-resume
 
   celery_worker:
