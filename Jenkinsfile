@@ -57,6 +57,7 @@ pipeline {
                      string(credentialsId: 'laravel-app-key-resume-builder', variable: 'APP_KEY')]) {
                         // Inject Jenkins environment variables into Docker Compose
                         withEnv([
+                        "APP_DEPLOYMENT_NAME=${env.IMAGE_NAME}",
                         "CELERY_BROKER_URL=${env.CELERY_BROKER_URL}",
                         "SCHEDULER_API_URL=${env.SCHEDULER_API_URL}",
                         "APP_KEY=${env.APP_KEY}",

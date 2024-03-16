@@ -9,6 +9,7 @@ services:
       - ./client:/var/www
     environment:
       - APP_NAME=JSON Resume Builder
+      - APP_DEPLOYMENT_NAME=${APP_DEPLOYMENT_NAME}
       - APP_KEY=${APP_KEY}
       - APP_URL=${APP_URL}
       - DB_CONNECTION=pgsql
