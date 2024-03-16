@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   php_server:
@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./client:/var/www
- environment:
+    environment:
       - APP_NAME='JSON Resume Builder'
       - APP_KEY=${APP_KEY}
       - APP_URL=${APP_URL}
