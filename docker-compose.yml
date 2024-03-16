@@ -8,20 +8,20 @@ services:
     volumes:
       - ./client:/var/www
     environment:
-      - APP_NAME='JSON Resume Builder'
+      - APP_NAME=JSON Resume Builder
       - APP_KEY=${APP_KEY}
       - APP_URL=${APP_URL}
-      - DB_CONNECTION='pgsql'
+      - DB_CONNECTION=pgsql
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
       - DB_DATABASE=${DB_DATABASE}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       # Other Laravel specific env variables
-      - SESSION_DRIVER=database'
-      - BROADCAST_DRIVER='log'
-      - CACHE_DRIVER='database'
-      - QUEUE_CONNECTION='rabbitmq'
+      - SESSION_DRIVER=database
+      - BROADCAST_DRIVER=log
+      - CACHE_DRIVER=database
+      - QUEUE_CONNECTION=rabbitmq
       # RabbitMQ environment variables
       - RABBITMQ_HOST=${RABBITMQ_HOST}
       - RABBITMQ_PORT=${RABBITMQ_PORT}
@@ -29,7 +29,7 @@ services:
       - RABBITMQ_USER=${RABBITMQ_USER}
       - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
       - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
-      - TZ='Europe/Warsaw'
+      - TZ=Europe/Warsaw
       - SCHEDULER_API_URL=${SCHEDULER_API_URL}
     ports:
       - "9000:9000"
@@ -47,7 +47,7 @@ services:
       - SCHEDULER_API_URL=${SCHEDULER_API_URL}
       - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
       - LATEX_TEMPLATE_DIR=./cv-tex-templates
-      - TZ='Europe/Warsaw'
+      - TZ=Europe/Warsaw
     depends_on:
       - php_server
     networks:
