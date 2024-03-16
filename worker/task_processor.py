@@ -7,13 +7,13 @@ from jinja2 import Environment, FileSystemLoader
 
 # Initialize Celery
 app = Celery('latex_compiler',
-             broker=os.environ.get('CELERY_BROKER_URL', 'pyamqp://guest@localhost//'))
+             broker=os.environ.get('CELERY_BROKER_URL'))
 
 @app.task(bind=True)
 def compile_latex(self, template_name, data):
     # Set up the Jinja2 environment with custom delimiters for LaTeX
     env = Environment(
-        loader=FileSystemLoader('/path/to/templates'),
+        loader=FileSystemLoader(TEMPLATE_DIR),
         block_start_string='\BLOCK{',
         block_end_string='}',
         variable_start_string='\VAR{',
@@ -50,8 +50,8 @@ def notify_scheduler_api(task_id, status, error_message=None):
     payload = {'task_id': task_id, 'status': status}
     if error_message:
         payload['error_message'] = error_message
-    requests.post(os.environ.get('SCHEDULER_API_URL', 'http://localhost:5000/status'), json=payload)
-
+    requests.post(os.environ.get('SCHEDULER_API_URL'), json=payload)
+    
 @app.task(bind=True)
 def cancel_task(self, task_id):
     """Cancel a running task."""

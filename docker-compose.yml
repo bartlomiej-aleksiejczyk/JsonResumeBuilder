@@ -3,14 +3,36 @@ version: '3.8'
 services:
   php_server:
     build:
-        context: ./client
-        dockerfile: Dockerfile
+      context: ./client
+      dockerfile: Dockerfile
     volumes:
-        - ./client:/var/www
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - QUEUE_NAME=${QUEUE_NAME}
-      - TZ=${PHP_TZ-Europe/Warsaw }
+      - ./client:/var/www
+ environment:
+      - APP_NAME=${APP_NAME}
+      - APP_ENV=${APP_ENV}
+      - APP_KEY=${APP_KEY}
+      - APP_DEBUG=${APP_DEBUG}
+      - APP_URL=${APP_URL}
+      - DB_CONNECTION=${DB_CONNECTION}
+      - DB_HOST=db
+      - DB_PORT=${DB_PORT}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      # Other Laravel specific env variables
+      - SESSION_DRIVER=${SESSION_DRIVER}
+      - BROADCAST_DRIVER=${BROADCAST_DRIVER}
+      - CACHE_DRIVER=${CACHE_DRIVER}
+      - QUEUE_CONNECTION=${QUEUE_CONNECTION}
+      - SESSION_LIFETIME=${SESSION_LIFETIME}
+      # RabbitMQ environment variables
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - RABBITMQ_VHOST=${RABBITMQ_VHOST}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+      - TZ=${PHP_TZ-Europe/Warsaw}
     ports:
       - "9000:9000"
     networks:
@@ -25,6 +47,7 @@ services:
     environment:
       - CELERY_BROKER_URL=${CELERY_BROKER_URL}
       - SCHEDULER_API_URL=${SCHEDULER_API_URL}
+      - LATEX_TEMPLATE_DIR=./cv-tex-templates
       - TZ=${WORKER_TIMEZONE}
     depends_on:
       - php_server
