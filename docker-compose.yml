@@ -43,7 +43,6 @@ services:
       - ./client:/var/www
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=bridge" # Make sure this is the name of the Docker default network.
       - "traefik.http.routers.${APP_DEPLOYMENT_NAME}.rule=Host(`${HOST_IP}`) && PathPrefix(`/${APP_DEPLOYMENT_NAME}`)"
       - "traefik.http.services.${APP_DEPLOYMENT_NAME}.loadbalancer.server.port=80"
     depends_on:
