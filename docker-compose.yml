@@ -47,7 +47,7 @@ services:
   celery_worker:
     build:
       context: ./worker
-      dockerfile: Dockerfile # Replace with the actual Dockerfile name if it's different
+      dockerfile: Dockerfile
     volumes:
       - ./worker:/usr/src/app
     environment:
@@ -63,3 +63,6 @@ services:
 
 networks:
   webnet-resume:
+  default:
+    external:
+      name: bridge
