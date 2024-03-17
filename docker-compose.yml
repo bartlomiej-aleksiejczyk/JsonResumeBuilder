@@ -35,13 +35,25 @@ services:
       - SCHEDULER_API_URL=${SCHEDULER_API_URL}
     ports:
       - "9000:9000"
+    networks:
+      - default
+      - webnet-resume
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./client:/var/www
+    ports:
+      - "80:80"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=docker0"
       - "traefik.http.routers.${APP_DEPLOYMENT_NAME}.rule=Host(`${HOST_IP}`) && PathPrefix(`/${APP_DEPLOYMENT_NAME}`)"
-      - "traefik.http.services.${APP_DEPLOYMENT_NAME}.loadbalancer.server.port=9000"
+      - "traefik.http.services.${APP_DEPLOYMENT_NAME}.loadbalancer.server.port=80"
+    depends_on:
+      - php_server
     networks:
-      - default
       - webnet-resume
 
   celery_worker:
