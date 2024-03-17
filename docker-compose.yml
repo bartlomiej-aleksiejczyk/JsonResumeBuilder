@@ -36,7 +36,6 @@ services:
     ports:
       - "9000:9000"
     networks:
-      - default
       - webnet-resume
 
   nginx:
@@ -48,13 +47,14 @@ services:
       - "80:80"
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=docker0"
+      - "traefik.docker.network=bridge" # Make sure this is the name of the Docker default network.
       - "traefik.http.routers.${APP_DEPLOYMENT_NAME}.rule=Host(`${HOST_IP}`) && PathPrefix(`/${APP_DEPLOYMENT_NAME}`)"
       - "traefik.http.services.${APP_DEPLOYMENT_NAME}.loadbalancer.server.port=80"
     depends_on:
       - php_server
     networks:
       - webnet-resume
+      - bridge
 
   celery_worker:
     build:
@@ -75,6 +75,6 @@ services:
 
 networks:
   webnet-resume:
-  default:
-    external:
-      name: bridge
+  bridge:
+    external: true
+    name: bridge
