@@ -4,7 +4,7 @@ FROM php:8.2-fpm
 WORKDIR /var/www
 
 # Install dependencies for the project
-RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo pdo_pgsql
+RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo pdo_pgsql sockets
 
 # Install Composer globally
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
