@@ -52,7 +52,6 @@ services:
       - "traefik.http.services.${APP_DEPLOYMENT_NAME}.loadbalancer.server.port=80"
     depends_on:
       - php_server
-    network_mode: "bridge"
     networks:
       - webnet_resume
       - outer_traefik_network
