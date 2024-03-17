@@ -1,6 +1,7 @@
 pipeline {
     agent any
     environment {
+        NETWORK_NAME = "${env.STANDARD_TRAEFIK_DOCKER_NETWORK}"
         // Define your image name here
         IMAGE_NAME = "${JOB_NAME}".toLowerCase().replaceAll(/[^a-z0-9._-]/, '-')
         // Define a tag for your image
@@ -74,8 +75,9 @@ pipeline {
                         "RABBITMQ_VHOST=${env.RABBITMQ_VHOST}",
                         "RABBITMQ_USER=${env.RABBITMQ_USER}",
                         "RABBITMQ_PASSWORD=${env.RABBITMQ_PASSWORD}",
-                        "RABBITMQ_QUEUE=${env.RABBITMQ_QUEUE}"
-                    // Add other variables as needed
+                        "RABBITMQ_QUEUE=${env.RABBITMQ_QUEUE}" ,
+                        "NETWORK_NAME=${env.NETWORK_NAME}"
+                 // Add other variables as needed
                     ]) {
                             // Run Docker Compose
                             sh 'docker compose up -d'
