@@ -5,8 +5,6 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-    volumes:
-      - ./client:/var/www
     environment:
       - APP_NAME=JSON Resume Builder
       - APP_DEPLOYMENT_NAME=${APP_DEPLOYMENT_NAME}
@@ -38,9 +36,6 @@ services:
 
   nginx:
     image: nginx:latest
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./client:/var/www
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${APP_DEPLOYMENT_NAME}.rule=Host(`${HOST_IP}`) && PathPrefix(`/${APP_DEPLOYMENT_NAME}`)"
@@ -55,8 +50,6 @@ services:
     build:
       context: ./worker
       dockerfile: Dockerfile
-    volumes:
-      - ./worker:/usr/src/app
     environment:
       - CELERY_BROKER_URL=${CELERY_BROKER_URL}
       - SCHEDULER_API_URL=${SCHEDULER_API_URL}
