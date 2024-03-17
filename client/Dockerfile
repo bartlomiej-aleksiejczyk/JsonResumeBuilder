@@ -7,7 +7,7 @@ WORKDIR /var/www
 RUN apt-get update && \
     apt-get install -y \
     libpq-dev \
-    git && \ # Add this line to install git
+    git \ # Add this line to install git
     docker-php-ext-install pdo pdo_pgsql sockets
 
 # Install Composer globally
