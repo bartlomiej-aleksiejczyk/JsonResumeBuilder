@@ -15,6 +15,9 @@ COPY . /var/www
 # Install PHP dependencies with Composer
 RUN composer install --no-interaction --no-plugins --no-scripts --prefer-dist
 
+# Copy existing application directory permissions
+COPY --chown=www-data:www-data . /var/www
+
 # Ensure files are owned by the www-data user
 RUN chown -R www-data:www-data /var/www
 
