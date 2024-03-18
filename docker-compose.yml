@@ -39,7 +39,7 @@ services:
   nginx:
     image: nginx:latest
     volumes:
-      - laravel_public:/var/www/html
+      - laravel_public:/var/www/public
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     labels:
       - "traefik.enable=true"
