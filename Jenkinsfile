@@ -79,6 +79,7 @@ pipeline {
                  // Add other variables as needed
                     ]) {
                             // Run Docker Compose
+                            sh 'docker compose down'
                             sh 'docker compose up --build -d'
                     }
                      }
