@@ -31,12 +31,15 @@ services:
       - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
       - TZ=Europe/Warsaw
       - SCHEDULER_API_URL=${SCHEDULER_API_URL}
+    volumes:
+      - laravel_public:/var/www/public
     networks:
       - webnet_resume
 
   nginx:
     image: nginx:latest
     volumes:
+      - laravel_public:/var/www/html
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     labels:
       - "traefik.enable=true"
@@ -69,3 +72,5 @@ networks:
   outer_traefik_network:
     name: ${NETWORK_NAME}
     external: true
+volumes:
+  laravel_public:
