@@ -11,8 +11,6 @@ pipeline {
         DB_HOST = "${env.DB_HOST}"
         DB_PORT = "${env.DB_PORT}"
         DB_DATABASE = "${env.PROD_DB_NAME}"
-
-        RABBITMQ_QUEUE = 'json-cv-builder'
     }
     stages {
         stage('Get Host IP') {
@@ -59,7 +57,7 @@ pipeline {
                         "RABBITMQ_VHOST=${env.RABBITMQ_VHOST}",
                         "RABBITMQ_USER=${env.RABBITMQ_USER}",
                         "RABBITMQ_PASSWORD=${env.RABBITMQ_PASSWORD}",
-                        "RABBITMQ_QUEUE=${env.RABBITMQ_QUEUE}" ,
+                        "RABBITMQ_QUEUE=${env.IMAGE_NAME}" ,
                         "NETWORK_NAME=${env.NETWORK_NAME}"
                     ]) {
                             sh 'docker compose down'
