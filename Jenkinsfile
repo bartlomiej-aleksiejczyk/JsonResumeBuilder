@@ -72,7 +72,8 @@ pipeline {
         stage('Migrate Clients database') {
             steps {
                 script {
-                    sh "docker exec ${IMAGE_NAME} php artisan migrate"
+                    //TODO: Check if this is safe
+                    sh "docker exec ${IMAGE_NAME} php artisan migrate --force"
                 }
             }
         }
