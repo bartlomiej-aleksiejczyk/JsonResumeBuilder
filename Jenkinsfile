@@ -72,7 +72,7 @@ pipeline {
         stage('Migrate Clients database') {
             steps {
                 script {
-                    sh "docker exec ${APP_DEPLOYMENT_NAME} php artisan migrate"
+                    sh "docker exec ${IMAGE_NAME} php artisan migrate"
                 }
             }
         }
