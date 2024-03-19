@@ -2,9 +2,7 @@ pipeline {
     agent any
     environment {
         NETWORK_NAME = "${env.STANDARD_TRAEFIK_DOCKER_NETWORK}"
-        // Define your image name here
         IMAGE_NAME = "${JOB_NAME}".toLowerCase().replaceAll(/[^a-z0-9._-]/, '-')
-        // Define a tag for your image
         IMAGE_TAG = 'latest'
         RABBITMQ_HOST = "${env.RABBITMQ_HOST}"
         RABBITMQ_PORT = "${env.RABBITMQ_PORT}"
@@ -14,21 +12,12 @@ pipeline {
         DB_PORT = "${env.DB_PORT}"
         DB_DATABASE = "${env.PROD_DB_NAME}"
 
-        // Define common environment variables here
         RABBITMQ_QUEUE = 'json-cv-builder'
-    // Add other Laravel specific environment variables as needed
     }
     stages {
-        stage('Checkout Code') {
-            steps {
-                checkout scm
-            }
-        }
         stage('Get Host IP') {
             steps {
                 script {
-                    // Using a shell command to get the host IP address. Adjust the command according to your OS and network configuration.
-                    // Note the use of double dollar signs ($$) to escape the dollar sign in the Groovy string.
                     env.HOST_IP = sh(script: "hostname -I | awk '{print \$1}'", returnStdout: true).trim()
                 }
             }
@@ -36,9 +25,6 @@ pipeline {
         stage('Build URL for apps') {
             steps {
                 script {
-                    // Add enviromental variables witthat will set SCHEDULER_API_URL and APP_URL in following manner
-                    // APP_URL = HOST_IP/IMAGE_NAME
-                    // SCHEDULER_API_URL = HOST_IP/IMAGE_NAME/api/v1/update-job-status
                     env.APP_URL = "http://${env.HOST_IP}/${env.IMAGE_NAME}"
                     env.SCHEDULER_API_URL = "http://${env.HOST_IP}/${env.IMAGE_NAME}/api/v1/update-job-status"
                 }
@@ -46,7 +32,7 @@ pipeline {
         }
         stage('Ensure Traefik is Running') {
             steps {
-                ensureTraefik() // Call the shared library step to ensure Traefik is running
+                ensureTraefik()
             }
         }
         stage('Build and Run Docker Containers') {
@@ -56,7 +42,6 @@ pipeline {
                      usernamePassword(credentialsId: 'rabbitmq-credentials', passwordVariable: 'RABBITMQ_PASSWORD', usernameVariable: 'RABBITMQ_USER'),
                      string(credentialsId: 'rabbitmq-url-with-credentials', variable: 'CELERY_BROKER_URL'),
                      string(credentialsId: 'laravel-app-key-resume-builder', variable: 'APP_KEY')]) {
-                        // Inject Jenkins environment variables into Docker Compose
                         withEnv([
                         "APP_DEPLOYMENT_NAME=${env.IMAGE_NAME}",
                         "CELERY_BROKER_URL=${env.CELERY_BROKER_URL}",
@@ -76,13 +61,18 @@ pipeline {
                         "RABBITMQ_PASSWORD=${env.RABBITMQ_PASSWORD}",
                         "RABBITMQ_QUEUE=${env.RABBITMQ_QUEUE}" ,
                         "NETWORK_NAME=${env.NETWORK_NAME}"
-                 // Add other variables as needed
                     ]) {
-                            // Run Docker Compose
                             sh 'docker compose down'
                             sh 'docker compose up --build -d'
                     }
                      }
+                }
+            }
+        }
+        stage('Migrate Clients database') {
+            steps {
+                script {
+                    sh "docker exec ${APP_DEPLOYMENT_NAME} php artisan migrate"
                 }
             }
         }
