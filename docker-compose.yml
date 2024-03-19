@@ -24,6 +24,7 @@ services:
       - BROADCAST_DRIVER=log
       - CACHE_DRIVER=database
       - QUEUE_CONNECTION=rabbitmq
+      - APP_DEBUG=true
       # RabbitMQ environment variables
       - RABBITMQ_HOST=${RABBITMQ_HOST}
       - RABBITMQ_PORT=${RABBITMQ_PORT}
