@@ -5,6 +5,8 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
+    #Need specific conainer name for migration, TODO build it bw
+    container_name: ${APP_DEPLOYMENT_NAME}
     environment:
       - APP_NAME=JSON Resume Builder
       - APP_DEPLOYMENT_NAME=${APP_DEPLOYMENT_NAME}
@@ -17,7 +19,7 @@ services:
       - DB_DATABASE=${DB_DATABASE}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
-      # Other Laravel specific env variables
+      # Laravel specific env variables
       - SESSION_DRIVER=database
       - BROADCAST_DRIVER=log
       - CACHE_DRIVER=database

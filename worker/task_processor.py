@@ -4,11 +4,9 @@ import requests
 from celery import Celery
 from jinja2 import Environment, FileSystemLoader
 
-# Initialize Celery
 app = Celery('latex_compiler',
              broker=os.environ.get('CELERY_BROKER_URL'))
 
-# Ensure the directory for LaTeX templates is correctly referenced
 templates_directory = os.environ.get('LATEX_TEMPLATE_DIR', '/path /to/templates')
 
 @app.task(bind=True, queue=os.environ.get('RABBITMQ_QUEUE'))
