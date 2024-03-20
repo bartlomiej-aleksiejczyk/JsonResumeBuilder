@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Publish a Job</title>
+</head>
+<body>
+<h1>Publish a Job</h1>
+<form action="#" th:action="@{/jobs/publish}" th:object="${job}" method="post">
+    <label for="templateName">Template Name:</label>
+    <select id="templateName" th:field="*{templateName}">
+        <option value="" selected>Choose...</option>
+        <option th:each="template : ${templates}" th:value="${template}" th:text="${template}"></option>
+    </select><br><br>
+
+    <label for="jsonContent">JSON Content:</label>
+    <textarea id="jsonContent" th:field="*{jsonContent}" rows="5" cols="33"></textarea><br><br>
+
+    <button type="submit">Publish Job</button>
+</form>
+</body>
+</html>

@@ -41,7 +41,7 @@ pipeline {
                      string(credentialsId: 'rabbitmq-url-with-credentials', variable: 'CELERY_BROKER_URL'),
                      string(credentialsId: 'laravel-app-key-resume-builder', variable: 'APP_KEY')]) {
                         withEnv([
-                        "APP_DEPLOYMENT_NAME=${env.IMAGE_NAME}",
+                        "IMAGE_NAME=${env.IMAGE_NAME}",
                         "CELERY_BROKER_URL=${env.CELERY_BROKER_URL}",
                         "SCHEDULER_API_URL=${env.SCHEDULER_API_URL}",
                         "HOST_IP=${HOST_IP}",

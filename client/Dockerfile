@@ -1,22 +1,18 @@
-FROM php:8.2-fpm
+FROM maven:3.9.6-eclipse-temurin-21-jammy AS builder
 
-WORKDIR /var/www
+COPY src /home/app/src
+COPY pom.xml /home/app
 
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    git && \
-    docker-php-ext-install pdo pdo_pgsql sockets
+WORKDIR /home/app
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN mvn clean package
 
-COPY . /var/www
+FROM eclipse-temurin:21.0.2_13-jre-jammy
 
-RUN composer install --no-interaction --no-plugins --no-scripts --prefer-dist
+VOLUME /tmp
 
-RUN chown -R www-data:www-data /var/www
+EXPOSE 8080
 
-ENV TZ=Europe/Warsaw
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-EXPOSE 9000
-CMD ["php-fpm"]
+COPY --from=builder /home/app/target/*.jar app.jar
+COPY --from=builder / .
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
