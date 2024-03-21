@@ -9,7 +9,6 @@ CREATE TABLE cv_build_job (
     json_content TEXT NOT NULL,
     template_name VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
-    cv_compilation_result BYTEA.
     created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
     modified_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

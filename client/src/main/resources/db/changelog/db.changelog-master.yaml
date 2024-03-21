@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: classpath:/db/changelog/changes/0001_initial_schema.sql
+  - include:
+      file: classpath:/db/changelog/changes/0002_add_compilation_result.sql
