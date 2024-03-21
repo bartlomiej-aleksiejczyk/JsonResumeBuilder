@@ -5,30 +5,30 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-      args:
-        - DB_USERNAME=${DB_USERNAME}
-        - DB_PASSWORD=${DB_PASSWORD}
-        - SPRING_DB_PROD_URL=${SPRING_DB_PROD_URL}
-        - RABBITMQ_HOST=${RABBITMQ_HOST}
-        - RABBITMQ_PORT=${RABBITMQ_PORT}
-        - RABBITMQ_USER=${RABBITMQ_USER}
-        - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
-        - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
-        - IMAGE_NAME=${IMAGE_NAME}
-        - TZ=Europe/Warsaw
-      environment:
-        - DB_USERNAME=${DB_USERNAME}
-        - DB_PASSWORD=${DB_PASSWORD}
-        - SPRING_DB_PROD_URL=${SPRING_DB_PROD_URL}
-        - RABBITMQ_HOST=${RABBITMQ_HOST}
-        - RABBITMQ_PORT=${RABBITMQ_PORT}
-        - RABBITMQ_USER=${RABBITMQ_USER}
-        - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
-        - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
-        - IMAGE_NAME=${IMAGE_NAME}
-        - TZ=Europe/Warsaw
-      networks:
-        - webnet_resume
+    args:
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - SPRING_DB_PROD_URL=${SPRING_DB_PROD_URL}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+      - IMAGE_NAME=${IMAGE_NAME}
+      - TZ=Europe/Warsaw
+    environment:
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - SPRING_DB_PROD_URL=${SPRING_DB_PROD_URL}
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+      - IMAGE_NAME=${IMAGE_NAME}
+      - TZ=Europe/Warsaw
+    networks:
+      - webnet_resume
 
   celery_worker:
     build:
