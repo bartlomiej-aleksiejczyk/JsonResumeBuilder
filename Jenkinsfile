@@ -11,6 +11,7 @@ pipeline {
         DB_HOST = "${env.DB_HOST}"
         DB_PORT = "${env.DB_PORT}"
         DB_DATABASE = "${env.PROD_DB_NAME}"
+        SPRING_DB_PROD_URL = "${env.SPRING_DB_PROD_URL}"
     }
     stages {
         stage('Get Host IP') {
@@ -52,6 +53,7 @@ pipeline {
                         "DB_DATABASE=${env.DB_DATABASE}",
                         "DB_USERNAME=${env.DB_USERNAME}",
                         "DB_PASSWORD=${env.DB_PASSWORD}",
+                        "SPRING_DB_PROD_URL=${SPRING_DB_PROD_URL}",
                         "RABBITMQ_HOST=${env.RABBITMQ_HOST}",
                         "RABBITMQ_PORT=${env.RABBITMQ_PORT}",
                         "RABBITMQ_VHOST=${env.RABBITMQ_VHOST}",
