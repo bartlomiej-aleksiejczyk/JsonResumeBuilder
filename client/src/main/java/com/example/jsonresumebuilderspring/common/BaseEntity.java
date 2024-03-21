@@ -1,4 +1,4 @@
-package com.example.InformationObjectHub.common;
+package com.example.jsonresumebuilderspring.common;
 
 
 import jakarta.persistence.*;

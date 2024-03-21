@@ -22,11 +22,12 @@ public class CvBuildJobMessageSenderService {
         rabbitTemplate.convertAndSend(jobExchange, jobRoutingKey, jobMessage);
     }
 
-    public void publishJob(String jsonContent, String templateName) {
-        CvBuildJob newJob = new CvBuildJob(jsonContent, templateName,JobStatus.PENDING);
+    public void publishJob(CvBuildJobDTO cvBuildJobDTO) {
+
+        CvBuildJob newJob = new CvBuildJob(cvBuildJobDTO.getJsonContent(), cvBuildJobDTO.getTemplateName() ,JobStatus.PENDING);
         newJob = cvBuildJobRepository.save(newJob);
 
-        String jobMessage = String.format("Job ID: %d, Content: %s, Template: %s", newJob.getId(), jsonContent, templateName);
+        String jobMessage = String.format("Job ID: %d, Content: %s, Template: %s", newJob.getId(), cvBuildJobDTO.getJsonContent(), cvBuildJobDTO.getTemplateName());
 
         sendJob(jobMessage);
     }
