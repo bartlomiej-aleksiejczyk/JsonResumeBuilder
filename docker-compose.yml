@@ -34,6 +34,7 @@ services:
       - traefik.http.services.${APP_DEPLOYMENT_NAME}.loadbalancer.server.port=80
     networks:
       - webnet_resume
+      - outer_traefik_network
 
   celery_worker:
     build:
