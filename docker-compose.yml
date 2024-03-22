@@ -29,7 +29,7 @@ services:
       - TZ=Europe/Warsaw
     labels:
       - "traefik.enable=true"
-      - traefik.docker.network=${NETWORK_NAME}
+      - "traefik.docker.network=${NETWORK_NAME}"
       - "traefik.http.routers.${IMAGE_NAME}.rule=Host(`${HOST_IP}`) && PathPrefix(`/${IMAGE_NAME}`)"
       - "traefik.http.services.${IMAGE_NAME}.loadbalancer.server.port=8080"
     networks:
