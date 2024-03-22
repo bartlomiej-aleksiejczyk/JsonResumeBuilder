@@ -28,10 +28,10 @@ services:
       - IMAGE_NAME=${IMAGE_NAME}
       - TZ=Europe/Warsaw
     labels:
-      - traefik.enable=true
+      - "traefik.enable=true"
       - traefik.docker.network=${NETWORK_NAME}
-      - traefik.http.routers.${APP_DEPLOYMENT_NAME}.rule=Host(`${HOST_IP}`) && PathPrefix(`/${APP_DEPLOYMENT_NAME}`)
-      - traefik.http.services.${APP_DEPLOYMENT_NAME}.loadbalancer.server.port=80
+      - "traefik.http.routers.${APP_DEPLOYMENT_NAME}.rule=Host(`${HOST_IP}`) && PathPrefix(`/${APP_DEPLOYMENT_NAME}`)"
+      - "traefik.http.services.${APP_DEPLOYMENT_NAME}.loadbalancer.server.port=80"
     networks:
       - webnet_resume
       - outer_traefik_network
