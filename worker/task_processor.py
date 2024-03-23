@@ -22,5 +22,5 @@ if __name__ == '__main__':
         'worker',
         '--loglevel=INFO',
         '--concurrency=4',
-        '-Q', os.environ.get('CELERY_QUEUE', 'default'),
+        '-Q resumebuilder',
     ])
