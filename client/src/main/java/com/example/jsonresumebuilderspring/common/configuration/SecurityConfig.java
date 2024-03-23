@@ -42,6 +42,8 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
+        System.out.println(login);
+        System.out.println(rawPassword);
         UserDetails user =
                 User.withUsername(login)
                         .password("{argon2@SpringSecurity_v5_8}"+encryptDefaultPassword(rawPassword))
