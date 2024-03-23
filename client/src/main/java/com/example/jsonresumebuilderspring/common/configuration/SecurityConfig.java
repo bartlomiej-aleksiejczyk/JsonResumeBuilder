@@ -29,12 +29,11 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        SCryptPasswordEncoder encoder = SCryptPasswordEncoder.defaultsForSpringSecurity_v5_8();
-        String result = encoder.encode("password");
+
         System.out.println(result);
         UserDetails user =
                 User.withUsername("username")
-                        .password(result)
+                        .password("password")
                         .roles("USER")
                         .build();
         return new InMemoryUserDetailsManager(user);
