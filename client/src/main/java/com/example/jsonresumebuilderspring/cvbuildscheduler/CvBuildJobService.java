@@ -1,13 +1,14 @@
 package com.example.jsonresumebuilderspring.cvbuildscheduler;
 
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,8 +17,11 @@ import java.util.Map;
 public class CvBuildJobService {
 
     private final RabbitTemplate rabbitTemplate;
-    private final CvBuildJobRepository cvBuildJobRepository;
     private final ObjectMapper objectMapper;
+    private final CvBuildJobRepository cvBuildJobRepository;
+
+    @Value("${celery.task.name}")
+    private String celeryTaskName;
 
     @Value("${job.exchange.name}")
     private String jobExchange;
@@ -25,42 +29,40 @@ public class CvBuildJobService {
     @Value("${job.routing.key}")
     private String jobRoutingKey;
 
-    private void sendJob(String jobMessage) {
-        rabbitTemplate.convertAndSend(jobExchange, jobRoutingKey, jobMessage);
+
+    private void sendJob(Map<String, Object> task) {
+        try {
+            MessageProperties messageProperties = new MessageProperties();
+            messageProperties.setContentType(MessageProperties.CONTENT_TYPE_JSON);
+            String messageBody = objectMapper.writeValueAsString(task);
+            Message message = new Message(messageBody.getBytes(), messageProperties);
+            rabbitTemplate.send(jobExchange, jobRoutingKey, message);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error serializing Celery job message", e);
+        }
     }
 
     public void publishJob(CvBuildJobDTO cvBuildJobDTO) {
-        String content = cvBuildJobDTO.getJsonContent() == null ? "" : cvBuildJobDTO.getJsonContent();
-        String templateName = cvBuildJobDTO.getTemplateName() == null ? "" : cvBuildJobDTO.getTemplateName();
-
-        CvBuildJob newJob = new CvBuildJob(content, templateName, JobStatus.PENDING);
+        CvBuildJob newJob = new CvBuildJob(
+                cvBuildJobDTO.getJsonContent(),
+                cvBuildJobDTO.getTemplateName(),
+                JobStatus.PENDING
+        );
         newJob = cvBuildJobRepository.save(newJob);
-
-        Long jobId = newJob.getId();
-        if (jobId == null) {
-            throw new IllegalStateException("Job ID is null after saving to database.");
-        }
-
-        //TODO: Refactor this to spring-boot  --> Celery Bridge
-        Map<String, Object> args = new HashMap<>();
-        args.put("id", jobId);
-        args.put("content", content);
-        args.put("template_name", templateName);
+        Long newJobId = newJob.getId();
 
         Map<String, Object> task = new HashMap<>();
-        task.put("id", String.valueOf(jobId));
-        //TODO: extract log_message to env
-        task.put("task", "tasks.log_message");
-        task.put("args", Collections.singletonList(args));
-        task.put("kwargs", Collections.emptyMap());
+        task.put("id", String.valueOf(newJob.getId()));
+        task.put("task", celeryTaskName);
+        task.put("args", new Object[]{new HashMap<String, Object>() {{
+            put("id", newJobId);
+            put("content", cvBuildJobDTO.getJsonContent());
+            put("template_name", cvBuildJobDTO.getTemplateName());
+        }}});
+        task.put("kwargs", new HashMap<>());
         task.put("retries", 0);
         task.put("eta", null);
 
-        try {
-            String jobMessage = objectMapper.writeValueAsString(task);
-            sendJob(jobMessage);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error serializing job message", e);
-        }
+        sendJob(task);
     }
 }
