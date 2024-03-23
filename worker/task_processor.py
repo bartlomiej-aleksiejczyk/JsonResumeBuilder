@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 app = Celery('message_listener',
              broker=os.environ.get('CELERY_BROKER_URL'))
 
-@app.task(bind=True, queue=os.environ.get('RABBITMQ_QUEUE'))
+@app.task(bind=True, queue='resumebuilder')
 def listen_and_log(self, message):
     logger.info(f"Received message: {message}")
 
