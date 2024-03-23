@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +41,7 @@ public class CvBuildJobService {
             throw new IllegalStateException("Job ID is null after saving to database.");
         }
 
-        //TODO: Reafactor this to spring-boot  --> Celery Bridge
+        //TODO: Refactor this to spring-boot  --> Celery Bridge
         Map<String, Object> args = new HashMap<>();
         args.put("id", jobId);
         args.put("content", content);
