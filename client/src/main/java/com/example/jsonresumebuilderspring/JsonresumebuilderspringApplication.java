@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
+@EnableJpaAuditing
 public class JsonresumebuilderspringApplication {
 
 	public static void main(String[] args) {
