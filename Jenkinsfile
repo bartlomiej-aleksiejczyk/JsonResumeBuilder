@@ -43,7 +43,6 @@ pipeline {
                      usernamePassword(credentialsId: 'spring-json-resume-builder', passwordVariable: 'SPRING_CV_API_PASSWORD', usernameVariable: 'SPRING_CV_API_LOGIN')]) {
                         withEnv([
                         "IMAGE_NAME=${env.IMAGE_NAME}",
-                        "CELERY_BROKER_URL=${env.CELERY_BROKER_URL}",
                         "SCHEDULER_API_URL=${env.SCHEDULER_API_URL}",
                         "HOST_IP=${HOST_IP}",
                         "APP_URL=${env.APP_URL}",
@@ -51,14 +50,10 @@ pipeline {
                         "DB_HOST=${env.DB_HOST}",
                         "DB_PORT=${env.DB_PORT}",
                         "DB_DATABASE=${env.DB_DATABASE}",
-                        "DB_USERNAME=${env.DB_USERNAME}",
-                        "DB_PASSWORD=${env.DB_PASSWORD}",
                         "SPRING_DB_PROD_URL=${SPRING_DB_PROD_URL}",
                         "RABBITMQ_HOST=${env.RABBITMQ_HOST}",
                         "RABBITMQ_PORT=${env.RABBITMQ_PORT}",
                         "RABBITMQ_VHOST=${env.RABBITMQ_VHOST}",
-                        "RABBITMQ_USER=${env.RABBITMQ_USER}",
-                        "RABBITMQ_PASSWORD=${env.RABBITMQ_PASSWORD}",
                         "RABBITMQ_QUEUE=${env.IMAGE_NAME}" ,
                         "NETWORK_NAME=${env.NETWORK_NAME}"
                     ]) {
