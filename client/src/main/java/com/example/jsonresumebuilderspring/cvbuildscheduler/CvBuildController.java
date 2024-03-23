@@ -16,18 +16,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CvBuildController {
 
-    private final CvBuildJobMessageSenderService cvBuildJobMessageSenderService;
+    private final CvBuildJobService cvBuildJobService;
 
     @GetMapping("/publish")
     public String showPublishJobForm(Model model) {
-        model.addAttribute("jobDTO", new CvBuildJobDTO());
+        model.addAttribute("job", new CvBuildJobDTO());
         model.addAttribute("templates", List.of("Template1", "Template2", "Template3"));
         return "routes/publish-job-form";
     }
 
     @PostMapping("/publish")
     public String publishJob(@ModelAttribute("jobDTO") CvBuildJobDTO jobDTO, Model model) {
-        cvBuildJobMessageSenderService.publishJob(jobDTO);
+        cvBuildJobService.publishJob(jobDTO);
         return "redirect:/jobs/publish?success";
     }
 }

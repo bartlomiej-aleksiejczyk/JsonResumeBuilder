@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CvBuildJobMessageSenderService {
+public class CvBuildJobService {
 
     private final RabbitTemplate rabbitTemplate;
     private final CvBuildJobRepository cvBuildJobRepository;

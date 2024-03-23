@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/cv-build-job")
-public class CvBuildSchedulerRestController {
+public class CvBuildRestController {
 
     //TODO: Remove direct repository use
     private final CvBuildJobRepository cvBuildJobRepository;
