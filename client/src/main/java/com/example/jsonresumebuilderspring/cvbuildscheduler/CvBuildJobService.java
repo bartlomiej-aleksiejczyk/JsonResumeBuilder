@@ -22,14 +22,29 @@ public class CvBuildJobService {
         rabbitTemplate.convertAndSend(jobExchange, jobRoutingKey, jobMessage);
     }
 
-    public void publishJob(CvBuildJobDTO cvBuildJobDTO) {
+lic void publishJob(CvBuildJobDTO cvBuildJobDTO) {
 
-        CvBuildJob newJob = new CvBuildJob(cvBuildJobDTO.getJsonContent(), cvBuildJobDTO.getTemplateName() ,JobStatus.PENDING);
-        newJob = cvBuildJobRepository.save(newJob);
+    CvBuildJob newJob = new CvBuildJob(cvBuildJobDTO.getJsonContent(), cvBuildJobDTO.getTemplateName(), JobStatus.PENDING);
+    newJob = cvBuildJobRepository.save(newJob);
 
-        String jobMessage = String.format("Job ID: %d, Content: %s, Template: %s", newJob.getId(), cvBuildJobDTO.getJsonContent(), cvBuildJobDTO.getTemplateName());
+    JSONObject task = new JSONObject();
+    JSONObject args = new JSONObject();
+    args.put("id", newJob.getId());
+    args.put("content", cvBuildJobDTO.getJsonContent());
+    args.put("template_name", cvBuildJobDTO.getTemplateName());
+    
+    JSONArray argsArray = new JSONArray();
+    argsArray.put(args);
+    
+    task.put("id", String.valueOf(newJob.getId()));
+    task.put("task", "tasks.log_message"); 
+    task.put("args", argsArray);
+    task.put("kwargs", new JSONObject());
+    task.put("retries", 0);
+    task.put("eta", null);
 
-        sendJob(jobMessage);
-    }
+    String jobMessage = task.toString();
+    sendJob(jobMessage);
+}
 
 }

@@ -20,7 +20,7 @@ def log_message(self, message):
 if __name__ == '__main__':
     app.worker_main(argv=[
         'worker',
-        '--loglevel=INFO',
+        '--loglevel=INFO', 
         '--concurrency=4',
-        '-Q resumebuilder',
+        '-Q', 'resumebuilder',
     ])
