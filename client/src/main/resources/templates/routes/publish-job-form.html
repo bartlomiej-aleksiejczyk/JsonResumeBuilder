@@ -6,6 +6,10 @@
   </head>
   <body>
     <h1>Publish a Job</h1>
+    <div th:if="${param.success}">
+      <p>Job successfully published!</p>
+    </div>
+
     <form
       action="#"
       th:action="@{/jobs/publish}"
