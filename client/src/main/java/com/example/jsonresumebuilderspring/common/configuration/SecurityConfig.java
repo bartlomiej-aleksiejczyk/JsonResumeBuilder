@@ -29,8 +29,6 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-
-        System.out.println(result);
         UserDetails user =
                 User.withUsername("username")
                         .password("password")
