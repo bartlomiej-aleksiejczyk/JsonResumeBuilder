@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -28,25 +28,31 @@ public class CvBuildJobService {
     }
 
     public void publishJob(CvBuildJobDTO cvBuildJobDTO) {
+        String content = cvBuildJobDTO.getJsonContent() == null ? "" : cvBuildJobDTO.getJsonContent();
+        String templateName = cvBuildJobDTO.getTemplateName() == null ? "" : cvBuildJobDTO.getTemplateName();
 
-        CvBuildJob newJob = new CvBuildJob(cvBuildJobDTO.getJsonContent(), cvBuildJobDTO.getTemplateName(), JobStatus.PENDING);
+        CvBuildJob newJob = new CvBuildJob(content, templateName, JobStatus.PENDING);
         newJob = cvBuildJobRepository.save(newJob);
 
-        //TODO: Reafactor this to spring-boot  --> Celery Bridge
-        Map<String, Object> args = Map.of(
-                "id", newJob.getId(),
-                "content", cvBuildJobDTO.getJsonContent(),
-                "template_name", cvBuildJobDTO.getTemplateName()
-        );
+        Long jobId = newJob.getId();
+        if (jobId == null) {
+            throw new IllegalStateException("Job ID is null after saving to database.");
+        }
 
-        Map<String, Object> task = Map.of(
-                "id", String.valueOf(newJob.getId()),
-                "task", "tasks.log_message",
-                "args", Collections.singletonList(args),
-                "kwargs", Collections.emptyMap(),
-                "retries", 0,
-                "eta", null
-        );
+        //TODO: Reafactor this to spring-boot  --> Celery Bridge
+        Map<String, Object> args = new HashMap<>();
+        args.put("id", jobId);
+        args.put("content", content);
+        args.put("template_name", templateName);
+
+        Map<String, Object> task = new HashMap<>();
+        task.put("id", String.valueOf(jobId));
+        //TODO: extract log_message to env
+        task.put("task", "tasks.log_message");
+        task.put("args", Collections.singletonList(args));
+        task.put("kwargs", Collections.emptyMap());
+        task.put("retries", 0);
+        task.put("eta", null);
 
         try {
             String jobMessage = objectMapper.writeValueAsString(task);
@@ -55,5 +61,4 @@ public class CvBuildJobService {
             throw new RuntimeException("Error serializing job message", e);
         }
     }
-
 }
