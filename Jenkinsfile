@@ -40,7 +40,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'database-config', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME'),
                      usernamePassword(credentialsId: 'rabbitmq-credentials', passwordVariable: 'RABBITMQ_PASSWORD', usernameVariable: 'RABBITMQ_USER'),
                      string(credentialsId: 'rabbitmq-url-with-credentials', variable: 'CELERY_BROKER_URL'),
-                     string(credentialsId: 'laravel-app-key-resume-builder', variable: 'APP_KEY')]) {
+                     usernamePassword(credentialsId: 'spring-json-resume-builder', passwordVariable: 'SPRING_CV_API_PASSWORD', usernameVariable: 'SPRING_CV_API_LOGIN')]) {
                         withEnv([
                         "IMAGE_NAME=${env.IMAGE_NAME}",
                         "CELERY_BROKER_URL=${env.CELERY_BROKER_URL}",

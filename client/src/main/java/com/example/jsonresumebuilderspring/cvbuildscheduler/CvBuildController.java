@@ -22,7 +22,7 @@ public class CvBuildController {
     public String showPublishJobForm(Model model) {
         model.addAttribute("jobDTO", new CvBuildJobDTO());
         model.addAttribute("templates", List.of("Template1", "Template2", "Template3"));
-        return "publishJob";
+        return "routes/publish-job-form";
     }
 
     @PostMapping("/publish")

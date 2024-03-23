@@ -1,5 +1,6 @@
 package com.example.jsonresumebuilderspring.common.configuration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -8,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,9 +21,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    public static String getPass (String rawPass){
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-        return encoder.encode("password");
+    @Value("${SPRING_CV_API_LOGIN}")
+    private String login;
+    @Value("${SPRING_CV_API_PASSWORD}")
+    private String rawPassword;
+
+    public static String encryptDefaultPassword (String rawPassword){
+        Argon2PasswordEncoder encoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        return encoder.encode(rawPassword);
     }
 
     @Bean
@@ -35,10 +42,9 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        System.out.println(getPass("password"));
         UserDetails user =
-                User.withUsername("username")
-                        .password("{noop}password")
+                User.withUsername(login)
+                        .password("{argon2@SpringSecurity_v5_8}"+encryptDefaultPassword(rawPassword))
                         .roles("USER")
                         .build();
         return new InMemoryUserDetailsManager(user);
