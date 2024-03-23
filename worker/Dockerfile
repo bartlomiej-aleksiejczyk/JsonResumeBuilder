@@ -1,4 +1,4 @@
-FROM python:3.8-slim
+FROM python:3.12.2-alpine3.19
 
 WORKDIR /usr/src/app
 
@@ -10,11 +10,13 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY . .
-
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 5672
+COPY . .
 
-CMD ["celery", "-A", "task_processor", "worker", "--loglevel=info"]
+RUN useradd -m myuser
+USER myuser
+
+ENTRYPOINT ["celery", "-A", "task_processor", "worker"]
+CMD ["--loglevel=info"]
