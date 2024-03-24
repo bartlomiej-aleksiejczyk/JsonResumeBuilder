@@ -22,7 +22,7 @@ services:
       context: ./client
       dockerfile: Dockerfile
     environment:
-      - SPRING_SINGLE_PASSWORD=${SPRING_SINGLE_PASSWORD}
+      - SPRING_SINGLE_LOGIN=${SPRING_SINGLE_LOGIN}
       - SPRING_SINGLE_PASSWORD=${SPRING_SINGLE_PASSWORD}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
