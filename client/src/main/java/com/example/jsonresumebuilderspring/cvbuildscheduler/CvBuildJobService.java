@@ -20,13 +20,13 @@ public class CvBuildJobService {
     private final ObjectMapper objectMapper;
     private final CvBuildJobRepository cvBuildJobRepository;
 
-    @Value("${celery.task.name}")
+    @Value("${QUEUE_EXCHANGE}")
     private String celeryTaskName;
 
-    @Value("${job.exchange.name}")
+    @Value("${QUEUE_ROUTING_KEY}")
     private String jobExchange;
 
-    @Value("${job.routing.key}")
+    @Value("${QUEUE_CELERY_TASK_BUILD_CV}")
     private String jobRoutingKey;
 
 
