@@ -1,6 +1,6 @@
 package com.example.jsonresumebuilderspring.cvbuildscheduler;
 
-
+import com.example.jsonresumebuilderspring.cvbuildscheduler.exceptions.CelerySerializationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +29,7 @@ public class CvBuildJobService {
     @Value("${QUEUE_ROUTING_KEY}")
     private String jobRoutingKey;
 
-
-    private void sendJob(Map<String, Object> task) {
+    private void sendJob(Map<String, Object> task) throws CelerySerializationException {
         try {
             MessageProperties messageProperties = new MessageProperties();
             messageProperties.setContentType(MessageProperties.CONTENT_TYPE_JSON);
@@ -38,27 +37,28 @@ public class CvBuildJobService {
             Message message = new Message(messageBody.getBytes(), messageProperties);
             rabbitTemplate.send(jobExchange, jobRoutingKey, message);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error serializing Celery job message", e);
+            throw new CelerySerializationException("Error serializing Celery job message", e);
         }
     }
 
-    public void publishJob(CvBuildJobDTO cvBuildJobDTO) {
+    public void publishJob(CvBuildJobDTO cvBuildJobDTO) throws CelerySerializationException {
         CvBuildJob newJob = new CvBuildJob(
                 cvBuildJobDTO.getJsonContent(),
                 cvBuildJobDTO.getTemplateName(),
-                JobStatus.PENDING
-        );
+                JobStatus.PENDING);
         newJob = cvBuildJobRepository.save(newJob);
         Long newJobId = newJob.getId();
 
         Map<String, Object> task = new HashMap<>();
+        Map<String, Object> args = new HashMap<>();
+
+        args.put("id", newJobId);
+        args.put("content", cvBuildJobDTO.getJsonContent());
+        args.put("template_name", cvBuildJobDTO.getTemplateName());
+
         task.put("id", String.valueOf(newJob.getId()));
         task.put("task", celeryTaskName);
-        task.put("args", new Object[]{new HashMap<String, Object>() {{
-            put("id", newJobId);
-            put("content", cvBuildJobDTO.getJsonContent());
-            put("template_name", cvBuildJobDTO.getTemplateName());
-        }}});
+        task.put("args", new Object[] { args });
         task.put("kwargs", new HashMap<>());
         task.put("retries", 0);
         task.put("eta", null);
