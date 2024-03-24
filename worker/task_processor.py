@@ -13,7 +13,7 @@ app.conf.task_queues = {
     },
 }
 
-@app.task(bind=True)
+@app.task(bind=True, name='log_message')
 def log_message(self, message):
     logging.info(f"Received message: {message}")
 
