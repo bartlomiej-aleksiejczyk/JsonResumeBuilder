@@ -12,8 +12,7 @@ pipeline {
         DB_PORT = "${env.DB_PORT}"
         DB_DATABASE = "${env.PROD_DB_NAME}"
         SPRING_DB_PROD_URL = "${env.SPRING_DB_PROD_URL}"
-        RABBITMQ_QUEUE="${env.IMAGE_NAME}"
-
+        RABBITMQ_QUEUE = "${env.IMAGE_NAME}"
     }
     stages {
         stage('Set up queue enviromental variables') {
@@ -22,7 +21,7 @@ pipeline {
                     env.QUEUE_EXCHANGE = "${env.IMAGE_NAME}"
                     env.QUEUE_ROUTING_KEY = "${env.IMAGE_NAME}"
                     env.QUEUE_NAME =  "${env.IMAGE_NAME}"
-                    env.QUEUE_CELERY_TASK_BUILD_CV =  "build-cv"
+                    env.QUEUE_CELERY_TASK_BUILD_CV =  'build-cv'
                 }
             }
         }
@@ -52,7 +51,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'database-config', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME'),
                      usernamePassword(credentialsId: 'rabbitmq-credentials', passwordVariable: 'RABBITMQ_PASSWORD', usernameVariable: 'RABBITMQ_USER'),
                      string(credentialsId: 'rabbitmq-url-with-credentials', variable: 'CELERY_BROKER_URL'),
-                     usernamePassword(credentialsId: 'spring-json-resume-builder', passwordVariable: 'SPRING_CV_API_PASSWORD', usernameVariable: 'SPRING_CV_API_LOGIN')]) {
+                     usernamePassword(credentialsId: 'spring-credidentials-standard-dev', passwordVariable: 'SPRING_SINGLE_PASSWORD', usernameVariable: 'SPRING_SINGLE_LOGIN')]) {
                         withEnv([
                         "IMAGE_NAME=${env.IMAGE_NAME}",
                         "SCHEDULER_API_URL=${env.SCHEDULER_API_URL}",

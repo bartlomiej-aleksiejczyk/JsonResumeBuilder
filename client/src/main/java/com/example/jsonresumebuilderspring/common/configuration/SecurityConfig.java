@@ -10,10 +10,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -21,9 +17,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Value("${SPRING_CV_API_LOGIN}")
+    @Value("${SPRING_SINGLE_PASSWORD}")
     private String login;
-    @Value("${SPRING_CV_API_PASSWORD}")
+    @Value("${SPRING_SINGLE_PASSWORD}")
     private String rawPassword;
 
     public static String encryptDefaultPassword (String rawPassword){
@@ -36,14 +32,17 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests((requests) -> requests
                     .anyRequest().authenticated()
-            ).httpBasic(Customizer.withDefaults());
+            )
+            .httpBasic(Customizer.withDefaults())
+            .formLogin(Customizer.withDefaults())
+            .logout(Customizer.withDefaults())
+            ;
+
         return http.build();
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
-        System.out.println(login);
-        System.out.println(rawPassword);
         UserDetails user =
                 User.withUsername(login)
                         .password(encryptDefaultPassword(rawPassword))
