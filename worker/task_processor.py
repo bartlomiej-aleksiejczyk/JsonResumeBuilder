@@ -7,13 +7,13 @@ logging.basicConfig(level=logging.INFO)
 app = Celery('worker', broker=os.environ.get('CELERY_BROKER_URL'))
 
 app.conf.task_queues = {
-    'resumebuilder': {
-        'exchange': 'resumebuilder',
-        'routing_key': 'resumebuilder',
+    os.environ.get('QUEUE_NAME'): {
+        'exchange': os.environ.get('QUEUE_EXCHANGE'),
+        'routing_key': os.environ.get('QUEUE_ROUTING_KEY'),
     },
 }
 
-@app.task(bind=True, name='log_message')
+@app.task(bind=True, name=os.environ.get('QUEUE_CELERY_TASK_BUILD_CV'))
 def log_message(self, message):
     logging.info(f"Received message: {message}")
 

@@ -12,8 +12,20 @@ pipeline {
         DB_PORT = "${env.DB_PORT}"
         DB_DATABASE = "${env.PROD_DB_NAME}"
         SPRING_DB_PROD_URL = "${env.SPRING_DB_PROD_URL}"
+        RABBITMQ_QUEUE="${env.IMAGE_NAME}"
+
     }
     stages {
+        stage('Set up queue enviromental variables') {
+            steps {
+                script {
+                    env.QUEUE_EXCHANGE = "${env.IMAGE_NAME}"
+                    env.QUEUE_ROUTING_KEY = "${env.IMAGE_NAME}"
+                    env.QUEUE_NAME =  "${env.IMAGE_NAME}"
+                    env.QUEUE_CELERY_TASK_BUILD_CV =  "build-cv"
+                }
+            }
+        }
         stage('Get Host IP') {
             steps {
                 script {
@@ -54,7 +66,11 @@ pipeline {
                         "RABBITMQ_HOST=${env.RABBITMQ_HOST}",
                         "RABBITMQ_PORT=${env.RABBITMQ_PORT}",
                         "RABBITMQ_VHOST=${env.RABBITMQ_VHOST}",
-                        "RABBITMQ_QUEUE=${env.IMAGE_NAME}" ,
+                        "QUEUE_EXCHANGE=${env.QUEUE_EXCHANGE}",
+                        "QUEUE_ROUTING_KEY=${env.QUEUE_ROUTING_KEY}",
+                        "QUEUE_NAME=${env.QUEUE_NAME}",
+                        "QUEUE_CELERY_TASK_BUILD_CV=${env.QUEUE_CELERY_TASK_BUILD_CV}",
+
                         "NETWORK_NAME=${env.NETWORK_NAME}"
                     ]) {
                             sh 'docker compose down'

@@ -1,6 +1,23 @@
 version: "3.8"
 
 services:
+  celery_worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    environment:
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+      - SCHEDULER_API_URL=${SCHEDULER_API_URL}
+
+      - QUEUE_EXCHANGE=${env.QUEUE_EXCHANGE},
+      - QUEUE_ROUTING_KEY=${env.QUEUE_ROUTING_KEY},
+      - QUEUE_NAME=${env.QUEUE_NAME},
+      - QUEUE_CELERY_TASK_BUILD_CV=${env.QUEUE_CELERY_TASK_BUILD_CV},
+
+      - TZ=Europe/Warsaw
+    networks:
+      - webnet_resume
+
   springboot_server:
     build:
       context: ./client
@@ -15,7 +32,11 @@ services:
       - RABBITMQ_PORT=${RABBITMQ_PORT}
       - RABBITMQ_USER=${RABBITMQ_USER}
       - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
-      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
+
+      - QUEUE_EXCHANGE=${env.QUEUE_EXCHANGE},
+      - QUEUE_ROUTING_KEY=${env.QUEUE_ROUTING_KEY},
+      - QUEUE_CELERY_TASK_BUILD_CV=${env.QUEUE_CELERY_TASK_BUILD_CV},
+
       - IMAGE_NAME=${IMAGE_NAME}
       - TZ=Europe/Warsaw
     labels:
@@ -23,24 +44,11 @@ services:
       - "traefik.docker.network=${NETWORK_NAME}"
       - "traefik.http.routers.${IMAGE_NAME}.rule=Host(`${HOST_IP}`) && PathPrefix(`/${IMAGE_NAME}`)"
       - "traefik.http.services.${IMAGE_NAME}.loadbalancer.server.port=8080"
+    depends_on:
+      - celery_worker
     networks:
       - webnet_resume
       - outer_traefik_network
-
-  celery_worker:
-    build:
-      context: ./worker
-      dockerfile: Dockerfile
-    environment:
-      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
-      - SCHEDULER_API_URL=${SCHEDULER_API_URL}
-      - RABBITMQ_QUEUE=${RABBITMQ_QUEUE}
-      - LATEX_TEMPLATE_DIR=./cv-tex-templates
-      - TZ=Europe/Warsaw
-    depends_on:
-      - springboot_server
-    networks:
-      - webnet_resume
 
 networks:
   webnet_resume:
