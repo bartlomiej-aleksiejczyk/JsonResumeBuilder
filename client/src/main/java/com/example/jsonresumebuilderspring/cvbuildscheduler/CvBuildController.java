@@ -5,11 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.example.jsonresumebuilderspring.cvbuildscheduler.exceptions.CelerySerializationException;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.ui.Model;
 
 import java.util.List;
-
 
 @Controller
 @RequestMapping("/jobs")
@@ -26,7 +28,8 @@ public class CvBuildController {
     }
 
     @PostMapping("/publish")
-    public String publishJob(@ModelAttribute("jobDTO") CvBuildJobDTO jobDTO, Model model) {
+    public String publishJob(@ModelAttribute("jobDTO") CvBuildJobDTO jobDTO, Model model)
+            throws CelerySerializationException {
         cvBuildJobService.publishJob(jobDTO);
         return "redirect:/jobs/publish?success";
     }
