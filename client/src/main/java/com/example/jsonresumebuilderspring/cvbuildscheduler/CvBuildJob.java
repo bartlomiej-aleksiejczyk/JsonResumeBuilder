@@ -1,10 +1,11 @@
 package com.example.jsonresumebuilderspring.cvbuildscheduler;
 
 import com.example.jsonresumebuilderspring.common.BaseEntity;
+import com.example.jsonresumebuilderspring.cvlatextemplate.CvLatexTemplate;
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 
 @Getter
 @Setter
@@ -17,15 +18,19 @@ public class CvBuildJob extends BaseEntity {
     private String jsonContent;
     private String templateName;
 
+    @ManyToOne
+    @JoinColumn(name = "template_id", nullable = false)
+    private CvLatexTemplate template;
+
     @Enumerated(EnumType.STRING)
     private JobStatus status;
 
     @Lob
     byte[] cvCompilationResult;
 
-    public CvBuildJob(String jsonContent, String templateName, JobStatus status) {
+    public CvBuildJob(String jsonContent, CvLatexTemplate template, JobStatus status) {
         this.jsonContent = jsonContent;
-        this.templateName = templateName;
+        this.template = template;
         this.status = status;
     }
 }

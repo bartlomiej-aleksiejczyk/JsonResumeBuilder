@@ -9,5 +9,5 @@ import lombok.Setter;
 @Setter
 public class CvBuildJobDTO {
     private String jsonContent;
-    private String templateName;
+    private Long templateId;
 }
