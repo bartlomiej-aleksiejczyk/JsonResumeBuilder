@@ -2,7 +2,10 @@ package com.example.jsonresumebuilderspring.cvbuildscheduler;
 
 import com.example.jsonresumebuilderspring.cvbuildscheduler.exceptions.CelerySerializationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.example.jsonresumebuilderspring.cvlatextemplate.CvLatexTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
@@ -19,6 +22,7 @@ public class CvBuildJobService {
     private final RabbitTemplate rabbitTemplate;
     private final ObjectMapper objectMapper;
     private final CvBuildJobRepository cvBuildJobRepository;
+    private final CvBuildJobLatexTemplateMediator cvBuildJobLatexTemplateMediator;
 
     @Value("${QUEUE_CELERY_TASK_BUILD_CV}")
     private String celeryTaskName;
@@ -28,6 +32,13 @@ public class CvBuildJobService {
 
     @Value("${QUEUE_ROUTING_KEY}")
     private String jobRoutingKey;
+
+    // private CvBuildJob findCvBuildJobById(Long id) {
+    // CvBuildJob cvBuildJob = cvBuildJobRepository.get(id)
+    // .orElseThrow(() -> new EntityNotFoundException("No CvBuildJob found with id:
+    // " + id));
+    // return cvBuildJob;
+    // }
 
     private void sendJob(Map<String, Object> task) throws CelerySerializationException {
         try {
@@ -42,9 +53,13 @@ public class CvBuildJobService {
     }
 
     public void publishJob(CvBuildJobDTO cvBuildJobDTO) throws CelerySerializationException {
+        Long templateId = cvBuildJobDTO.getTemplateId();
+        CvLatexTemplate template = cvBuildJobLatexTemplateMediator.getTemplateById(templateId)
+                .orElseThrow(() -> new EntityNotFoundException("No CvLatexTemplate found with id: " + templateId));
+
         CvBuildJob newJob = new CvBuildJob(
                 cvBuildJobDTO.getJsonContent(),
-                cvBuildJobDTO.getTemplateName(),
+                template,
                 JobStatus.PENDING);
         newJob = cvBuildJobRepository.save(newJob);
         Long newJobId = newJob.getId();
@@ -54,7 +69,7 @@ public class CvBuildJobService {
 
         args.put("id", newJobId);
         args.put("content", cvBuildJobDTO.getJsonContent());
-        args.put("template_name", cvBuildJobDTO.getTemplateName());
+        args.put("template_content", template.getTemplateContent());
 
         task.put("id", String.valueOf(newJob.getId()));
         task.put("task", celeryTaskName);

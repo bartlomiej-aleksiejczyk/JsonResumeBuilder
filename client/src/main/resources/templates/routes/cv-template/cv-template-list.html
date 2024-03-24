@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>LaTeX Templates</title>
+  </head>
+  <body>
+    <h2>LaTeX Templates</h2>
+    <div>
+      <a th:href="@{/templates/new}">Create New Template</a>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Template Content</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="template : ${templates}">
+          <td th:text="${template.id}">1</td>
+          <td th:text="${template.content}">Template Content</td>
+          <td>
+            <a th:href="@{/templates/{id}/edit(id=${template.id})}">Edit</a> |
+            <form
+              th:action="@{/templates/{id}/delete(id=${template.id})}"
+              method="post"
+              style="display: inline"
+            >
+              <input type="submit" value="Delete" />
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
