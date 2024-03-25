@@ -1,6 +1,6 @@
 --changeset bartlomiej_aleksiejczyk:0003-01
 CREATE TABLE cv_latex_template (
-    id BIGINT DEFAULT nextval('id_seq') PRIMARY KEY,
+    id BIGINT DEFAULT nextval('id_seq_resume_builder') PRIMARY KEY,
     template_content TEXT NOT NULL,
     deleted BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
