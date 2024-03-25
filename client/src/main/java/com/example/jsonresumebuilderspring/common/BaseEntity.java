@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class BaseEntity {
-    private static final String SEQUENCE_NAME = "id_seq";
+    private static final String SEQUENCE_NAME = "id_seq_resume_builder";
 
     // SEQUENCE generation works well with sqlite, in contrary to other types
     @Id
