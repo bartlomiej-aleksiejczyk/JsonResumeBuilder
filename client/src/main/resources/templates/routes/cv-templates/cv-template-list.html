@@ -19,7 +19,7 @@
       <tbody>
         <tr th:each="template : ${templates}">
           <td th:text="${template.id}">1</td>
-          <td th:text="${template.content}">Template Content</td>
+          <td th:text="${template.templateContent}">Template Content</td>
           <td>
             <a th:href="@{/templates/{id}/edit(id=${template.id})}">Edit</a> |
             <form
