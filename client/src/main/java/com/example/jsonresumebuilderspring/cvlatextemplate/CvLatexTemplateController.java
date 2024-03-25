@@ -13,16 +13,16 @@ public class CvLatexTemplateController {
 
     private final CvLatexTemplateService templateService;
 
-    @GetMapping("/list")
+    @GetMapping("/")
     public String listTemplates(Model model) {
         model.addAttribute("templates", templateService.getAllTemplates());
-        return "routes/templates/cv-templates/cv-template-list"; // Thymeleaf template path
+        return "routes/cv-templates/cv-template-list"; // Thymeleaf template path
     }
 
     @GetMapping("/new")
     public String newTemplateForm(Model model) {
         model.addAttribute("template", new CvLatexTemplate());
-        return "routes/cv-templates/cv-template-new.html";
+        return "routes/cv-templates/cv-template-new";
     }
 
     @PostMapping("/")
@@ -35,7 +35,7 @@ public class CvLatexTemplateController {
     public String editTemplateForm(@PathVariable Long id, Model model) {
         CvLatexTemplate template = templateService.getTemplateById(id).orElseThrow();
         model.addAttribute("template", template);
-        return "routes/templates/cv-templates/cv-template-edit";
+        return "routes/cv-templates/cv-template-edit";
     }
 
     @PostMapping("/{id}/edit")
