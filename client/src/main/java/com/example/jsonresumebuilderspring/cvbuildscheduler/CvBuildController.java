@@ -19,18 +19,19 @@ import java.util.List;
 public class CvBuildController {
 
     private final CvBuildJobService cvBuildJobService;
+    private final CvBuildJobLatexTemplateMediator cvBuildJobLatexTemplateMediator;
 
-    @GetMapping("/publish")
+    @GetMapping("/new")
     public String showPublishJobForm(Model model) {
         model.addAttribute("job", new CvBuildJobDTO());
-        model.addAttribute("templates", List.of("Template1", "Template2", "Template3"));
-        return "routes/publish-job-form";
+        model.addAttribute("templates", cvBuildJobLatexTemplateMediator.getAllNonDeletedTemplates());
+        return "routes/jobs/publish-job-new";
     }
 
-    @PostMapping("/publish")
+    @PostMapping("/new")
     public String publishJob(@ModelAttribute("jobDTO") CvBuildJobDTO jobDTO, Model model)
             throws CelerySerializationException {
         cvBuildJobService.publishJob(jobDTO);
-        return "redirect:/jobs/publish?success";
+        return "redirect:/jobs/new?success";
     }
 }
