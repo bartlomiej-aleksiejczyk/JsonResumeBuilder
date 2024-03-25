@@ -5,8 +5,10 @@
   </head>
   <body>
     <h2>Create New LaTeX Template</h2>
-    <form th:action="@{/templates}" method="post">
-      <textarea name="content" placeholder="Enter template content"></textarea>
+    <form th:action="@{/templates/}" method="post">
+      <label >
+        <textarea name="content" placeholder="Enter template content"></textarea>
+      </label>
       <br />
       <input type="submit" value="Create" />
     </form>
