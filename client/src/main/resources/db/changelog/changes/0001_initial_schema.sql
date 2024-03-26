@@ -8,7 +8,7 @@ CREATE SEQUENCE cv_latex_template_seq START WITH 1 INCREMENT BY 1;
 
 --changeset bartlomiej_aleksiejczyk:0001-02
 CREATE TABLE cv_build_job (
-    id BIGINT DEFAULT nextval('id_seq_resume_builder') PRIMARY KEY,
+    id BIGINT DEFAULT nextval('cv_build_job_seq') PRIMARY KEY,
     template_id BIGINT,
     json_content TEXT NOT NULL,
     status VARCHAR(255) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE cv_build_job (
 
 --changeset bartlomiej_aleksiejczyk:0001-03
 CREATE TABLE cv_latex_template (
-    id BIGINT DEFAULT nextval('id_seq_resume_builder') PRIMARY KEY,
+    id BIGINT DEFAULT nextval('cv_latex_template_seq') PRIMARY KEY,
     template_name VARCHAR(255) NOT NULL,
     template_content TEXT NOT NULL,
     deleted BOOLEAN NOT NULL DEFAULT FALSE,
