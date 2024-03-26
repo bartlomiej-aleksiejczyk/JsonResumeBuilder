@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
     <title>Edit LaTeX Template</title>
-  </head>
-  <body>
-    <h2>Edit LaTeX Template</h2>
-    <form th:action="@{/templates/{id}/edit(id=${template.id})}" method="post">
-      <textarea name="content" th:text="${template.content}">
-Template Content</textarea
-      >
-      <br />
-      <input type="submit" value="Update" />
-    </form>
-  </body>
+</head>
+<body>
+<h2>Edit LaTeX Template</h2>
+<form th:action="@{/templates/{id}/edit(id=${template.id})}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:value="${template.name}" placeholder="Enter template name" />
+    <br />
+    <label for="content">Content:</label>
+    <textarea id="content" name="content" placeholder="Enter template content" th:text="${template.content}"></textarea>
+    <br />
+    <input type="submit" value="Update" />
+</form>
+</body>
 </html>

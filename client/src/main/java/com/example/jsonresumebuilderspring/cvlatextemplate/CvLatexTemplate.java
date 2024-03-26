@@ -18,7 +18,8 @@ public class CvLatexTemplate extends BaseEntity {
     @Column(nullable = false)
     private boolean deleted = false;
 
-    public CvLatexTemplate(String templateContent) {
+    public CvLatexTemplate(String templateName, String templateContent) {
+        this.templateName = templateName;
         this.templateContent = templateContent;
     }
 }

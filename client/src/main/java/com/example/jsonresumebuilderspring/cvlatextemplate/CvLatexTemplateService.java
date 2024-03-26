@@ -22,17 +22,18 @@ public class CvLatexTemplateService {
         return templateRepository.findById(id);
     }
 
-    public CvLatexTemplate createTemplate(String content) {
-        CvLatexTemplate newTemplate = new CvLatexTemplate(content);
+    public CvLatexTemplate createTemplate(String name, String content) {
+        CvLatexTemplate newTemplate = new CvLatexTemplate(name, content);
         return templateRepository.save(newTemplate);
     }
 
-    public CvLatexTemplate editTemplate(Long id, String newContent) {
+    //TODO: Check if name or password in request is fidderent in no deny
+    public CvLatexTemplate editTemplate(Long id, String newName ,String newContent) {
         CvLatexTemplate oldTemplate = templateRepository.findById(id).orElseThrow();
         oldTemplate.setDeleted(true);
         templateRepository.save(oldTemplate);
 
-        return createTemplate(newContent);
+        return createTemplate(newName, newContent);
     }
 
     public void deleteTemplate(Long id) {
