@@ -25,7 +25,6 @@ public class CvBuildJob extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private JobStatus status;
 
-    @Lob
     byte[] cvCompilationResult;
 
     public CvBuildJob(String jsonContent, CvLatexTemplate template, JobStatus status) {
