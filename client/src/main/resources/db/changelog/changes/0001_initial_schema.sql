@@ -1,7 +1,9 @@
 --liquibase formatted sql
 
 --changeset bartlomiej_aleksiejczyk:0001-01
-CREATE SEQUENCE id_seq_resume_builder START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE cv_build_job_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE cv_latex_template_seq START WITH 1 INCREMENT BY 1;
+
 --rollback DROP SEQUENCE id_seq_resume_builder;
 
 --changeset bartlomiej_aleksiejczyk:0001-02
