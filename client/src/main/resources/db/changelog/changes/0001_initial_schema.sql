@@ -4,7 +4,8 @@
 CREATE SEQUENCE cv_build_job_seq START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE cv_latex_template_seq START WITH 1 INCREMENT BY 1;
 
---rollback DROP SEQUENCE id_seq_resume_builder;
+--rollback DROP SEQUENCE cv_build_job_seq;
+--rollback DROP SEQUENCE cv_latex_template_seq;
 
 --changeset bartlomiej_aleksiejczyk:0001-02
 CREATE TABLE cv_build_job (
