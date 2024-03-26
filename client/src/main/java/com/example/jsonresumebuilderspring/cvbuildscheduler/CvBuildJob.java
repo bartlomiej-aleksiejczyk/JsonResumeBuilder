@@ -16,7 +16,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CvBuildJob extends BaseEntity {
     private String jsonContent;
-    private String templateName;
 
     @ManyToOne
     @JoinColumn(name = "template_id", nullable = false)

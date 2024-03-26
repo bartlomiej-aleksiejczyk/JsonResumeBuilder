@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CvLatexTemplate extends BaseEntity {
     private String templateContent;
+    private String templateName;
 
     @Column(nullable = false)
     private boolean deleted = false;
