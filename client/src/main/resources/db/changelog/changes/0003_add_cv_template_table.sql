@@ -1,3 +1,5 @@
+--liquibase formatted sql
+
 --changeset bartlomiej_aleksiejczyk:0003-01
 CREATE TABLE cv_latex_template (
     id BIGINT DEFAULT nextval('id_seq_resume_builder') PRIMARY KEY,
