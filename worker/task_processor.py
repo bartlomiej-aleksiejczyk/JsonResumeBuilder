@@ -23,7 +23,7 @@ def log_message(self, message):
     url = f"http://springboot-server:8080/{os.environ.get('QUEUE_EXCHANGE')}/api/v1/cv-build-job/{message_id}/status"
     data = {'status': 'IN_PROGRESS'}
     response = requests.post(url, json=data)
-    logging.info(f"POST request to {url} returned: {response.text}")
+    logging.info(f"POST request to {url} returned: {response.status_code}")
 
 if __name__ == '__main__':
     app.worker_main(argv=[
