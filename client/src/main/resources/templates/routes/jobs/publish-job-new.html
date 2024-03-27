@@ -19,7 +19,7 @@
       <label for="template">Template Name:</label>
       <select id="template" th:field="*{templateId}">
         <option value="" selected>Choose...</option>
-        <option th:each="template : ${templates}" th:value="${template.id}" th:text="${template.id}"></option>
+        <option th:each="template : ${templates}" th:value="${template.id}" th:text="${template.templateName}"></option>
       </select>
       <br /><br />
 

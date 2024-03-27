@@ -26,7 +26,7 @@ public class CvLatexTemplateController {
     }
 
     @PostMapping("/")
-    public String createTemplate(@RequestParam("content") String name, String content) {
+    public String createTemplate(@RequestParam("name") String name, @RequestParam("content") String content) {
         templateService.createTemplate(name, content);
         return "redirect:/templates/";
     }
@@ -39,7 +39,7 @@ public class CvLatexTemplateController {
     }
 
     @PostMapping("/{id}/edit")
-    public String editTemplate(@PathVariable Long id, @RequestParam("content") String content) {
+    public String editTemplate(@PathVariable Long id, @RequestParam("name") String name, @RequestParam("content") String content) {
         templateService.editTemplate(id, name, content);
         return "redirect:/templates/";
     }
