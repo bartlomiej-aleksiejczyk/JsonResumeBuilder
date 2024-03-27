@@ -15,6 +15,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CvBuildJob extends BaseEntity {
+    @Column(length = 10485760)
     private String jsonContent;
 
     @ManyToOne
