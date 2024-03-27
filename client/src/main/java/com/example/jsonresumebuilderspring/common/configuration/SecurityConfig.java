@@ -22,32 +22,29 @@ public class SecurityConfig {
     @Value("${SPRING_SINGLE_PASSWORD}")
     private String rawPassword;
 
-    public static String encryptDefaultPassword (String rawPassword){
+    public static String encryptDefaultPassword(String rawPassword) {
         Argon2PasswordEncoder encoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
-        return "{argon2@SpringSecurity_v5_8}"+encoder.encode(rawPassword);
+        return "{noop}" + (rawPassword);
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests((requests) -> requests
-                    .anyRequest().authenticated()
-            )
-            .httpBasic(Customizer.withDefaults())
-            .formLogin(Customizer.withDefaults())
-            .logout(Customizer.withDefaults())
-            ;
+                .authorizeHttpRequests((requests) -> requests
+                        .anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults())
+                .logout(Customizer.withDefaults());
 
         return http.build();
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withUsername(login)
-                        .password(encryptDefaultPassword(rawPassword))
-                        .roles("USER")
-                        .build();
+        UserDetails user = User.withUsername(login)
+                .password(encryptDefaultPassword(rawPassword))
+                .roles("USER")
+                .build();
         return new InMemoryUserDetailsManager(user);
     }
 
