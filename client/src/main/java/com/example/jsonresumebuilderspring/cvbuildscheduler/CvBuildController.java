@@ -1,5 +1,6 @@
 package com.example.jsonresumebuilderspring.cvbuildscheduler;
 
+import com.example.jsonresumebuilderspring.cvbuildscheduler.dtos.CvBuildJobDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

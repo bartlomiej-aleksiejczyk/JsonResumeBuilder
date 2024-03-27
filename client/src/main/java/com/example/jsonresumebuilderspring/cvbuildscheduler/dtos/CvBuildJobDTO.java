@@ -1,4 +1,4 @@
-package com.example.jsonresumebuilderspring.cvbuildscheduler;
+package com.example.jsonresumebuilderspring.cvbuildscheduler.dtos;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

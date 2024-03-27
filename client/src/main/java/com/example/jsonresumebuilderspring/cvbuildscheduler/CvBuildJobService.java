@@ -1,5 +1,6 @@
 package com.example.jsonresumebuilderspring.cvbuildscheduler;
 
+import com.example.jsonresumebuilderspring.cvbuildscheduler.dtos.CvBuildJobDTO;
 import com.example.jsonresumebuilderspring.cvbuildscheduler.exceptions.CelerySerializationException;
 import com.example.jsonresumebuilderspring.cvlatextemplate.CvLatexTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;

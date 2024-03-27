@@ -1,5 +1,6 @@
 package com.example.jsonresumebuilderspring.cvbuildscheduler;
 
+import com.example.jsonresumebuilderspring.cvbuildscheduler.dtos.CvBuildJobStatusUpdateDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PatchMapping;
 
@@ -14,7 +15,7 @@ public class CvBuildRestController {
     private final CvBuildJobService cvBuildJobService;
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<CvBuildJob> updateJobStatus(@PathVariable Long id, @RequestParam("status") JobStatus status) {
-        return ResponseEntity.ok(cvBuildJobService.updateBuildJobStatus(id, status));
+    public ResponseEntity<CvBuildJob> updateJobStatus(@PathVariable Long id, @RequestBody CvBuildJobStatusUpdateDTO statusUpdate) {
+        return ResponseEntity.ok(cvBuildJobService.updateBuildJobStatus(id, statusUpdate.getStatus()));
     }
 }
