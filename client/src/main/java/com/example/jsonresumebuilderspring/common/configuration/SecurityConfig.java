@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +17,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Value("${IMAGE_NAME}")
+    private String rootUrl;
     @Value("${SPRING_SINGLE_PASSWORD}")
     private String login;
     @Value("${SPRING_SINGLE_PASSWORD}")
@@ -37,7 +38,7 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
                 .logout(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable);
+                .csrf(csrf -> csrf.ignoringRequestMatchers((rootUrl + "/api/**")));
         return http.build();
     }
 
