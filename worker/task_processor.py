@@ -21,8 +21,8 @@ def log_message(self, message):
     logging.info(f"Received message: {message}")
     message_id = message.get('id', '')
 
-    username = os.environ.get('SPRING_SINGLE_LOGIN')
-    password = os.environ.get('SPRING_SINGLE_PASSWORD')
+    username = 'user'#os.environ.get('SPRING_SINGLE_LOGIN')
+    password = 'user'#os.environ.get('SPRING_SINGLE_PASSWORD')
 
     url = f"http://springboot-server:8080/{os.environ.get('QUEUE_EXCHANGE')}/api/v1/cv-build-job/{message_id}/status"
 
