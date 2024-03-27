@@ -17,9 +17,8 @@ app.conf.task_queues = {
 
 @app.task(bind=True, name=os.environ.get('QUEUE_CELERY_TASK_BUILD_CV'))
 def log_message(self, message):
-    message_data = json.loads(message)
-    logging.info(f"Received message: {message_data}")
-    message_id = message_data.get('id', '')
+    logging.info(f"Received message: {message}")
+    message_id = message.get('id', '')
 
     url = f"http://springboot_server:8080/{os.environ.get('QUEUE_EXCHANGE')}/api/v1/cv-build-job/{message_id}/status"
     data = {'status': 'IN_PROGRESS'}
