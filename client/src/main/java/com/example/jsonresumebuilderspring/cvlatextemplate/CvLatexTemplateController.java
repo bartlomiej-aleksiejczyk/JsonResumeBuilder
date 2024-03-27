@@ -25,6 +25,7 @@ public class CvLatexTemplateController {
         return "routes/cv-templates/cv-template-new";
     }
 
+    //TODO: Validate if name is unique but only if deleted==true
     @PostMapping("/")
     public String createTemplate(@RequestParam("name") String name, @RequestParam("content") String content) {
         templateService.createTemplate(name, content);
@@ -38,6 +39,8 @@ public class CvLatexTemplateController {
         return "routes/cv-templates/cv-template-edit";
     }
 
+    //TODO: Validate if name is unique but only if deleted==true
+    //TODO: Validate if new name or content is different
     @PostMapping("/{id}/edit")
     public String editTemplate(@PathVariable Long id, @RequestParam("name") String name, @RequestParam("content") String content) {
         templateService.editTemplate(id, name, content);
