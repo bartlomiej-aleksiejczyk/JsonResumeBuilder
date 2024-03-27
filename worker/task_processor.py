@@ -3,6 +3,7 @@ from celery import Celery
 import json
 import logging
 import requests
+from requests.auth import HTTPBasicAuth
 
 logging.basicConfig(level=logging.INFO)
 
@@ -20,9 +21,15 @@ def log_message(self, message):
     logging.info(f"Received message: {message}")
     message_id = message.get('id', '')
 
+    username = os.environ.get('SPRING_SINGLE_LOGIN')
+    password = os.environ.get('SPRING_SINGLE_PASSWORD')
+
     url = f"http://springboot-server:8080/{os.environ.get('QUEUE_EXCHANGE')}/api/v1/cv-build-job/{message_id}/status"
+
     data = {'status': 'IN_PROGRESS'}
-    response = requests.post(url, json=data)
+
+    response = requests.post(url, json=data, auth=HTTPBasicAuth(username, password))
+    
     logging.info(f"POST request to {url} returned: {response.status_code}")
 
 if __name__ == '__main__':
