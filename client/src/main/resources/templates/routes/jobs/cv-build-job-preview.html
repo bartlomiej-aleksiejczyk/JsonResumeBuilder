@@ -16,7 +16,7 @@
     <p>JSON Content: <pre th:text="${job.jsonContent}"></pre></p>
     <p>Created At: <span th:text="${#dates.format(job.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
     <div th:if="!${job.template.deleted}">
-        <a th:href="@{/templates/{id}/preview(id=${job.template.id})}">View Associated Template</a>
+        <a th:href="@{/templates/{id} (id=${job.template.id})}">View Associated Template</a>
     </div>
 </div>
 <a href="/jobs">Back to list</a>

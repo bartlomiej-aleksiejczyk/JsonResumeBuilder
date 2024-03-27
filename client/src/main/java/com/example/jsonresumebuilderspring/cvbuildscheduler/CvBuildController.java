@@ -16,7 +16,7 @@ public class CvBuildController {
     private final CvBuildJobService cvBuildJobService;
     private final CvBuildJobLatexTemplateMediator cvBuildJobLatexTemplateMediator;
 
-    @GetMapping("/")
+    @GetMapping("")
     public String listJobs(Model model) {
         model.addAttribute("jobs", cvBuildJobService.getAllJobs());
         return "routes/jobs/cv-build-job-list";
@@ -35,7 +35,7 @@ public class CvBuildController {
         return "routes/jobs/cv-build-job-new";
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public String publishJob(@ModelAttribute("jobDTO") CvBuildJobDTO jobDTO, Model model)
             throws CelerySerializationException {
         cvBuildJobService.publishJob(jobDTO);

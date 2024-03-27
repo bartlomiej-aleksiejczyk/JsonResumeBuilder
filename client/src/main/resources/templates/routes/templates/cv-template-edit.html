@@ -5,7 +5,7 @@
 </head>
 <body>
 <h2>Edit LaTeX Template</h2>
-<form th:action="@{/templates/{id}/edit(id=${template.id})}" method="post">
+<form th:action="@{/templates/{id}(id=${template.id})}" method="post">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" th:value="${template.name}" placeholder="Enter template name" />
     <br />

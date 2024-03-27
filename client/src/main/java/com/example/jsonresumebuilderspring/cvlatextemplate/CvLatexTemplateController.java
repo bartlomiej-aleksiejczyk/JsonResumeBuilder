@@ -13,13 +13,13 @@ public class CvLatexTemplateController {
 
     private final CvLatexTemplateService templateService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public String listTemplates(Model model) {
         model.addAttribute("templates", templateService.getAllTemplates());
         return "routes/templates/cv-template-list"; // Thymeleaf template path
     }
 
-    @GetMapping("/{id}/")
+    @GetMapping("/{id}")
     public String previewTemplate(@PathVariable Long id, Model model) {
         CvLatexTemplate template = templateService.getTemplateById(id).orElseThrow(() -> new IllegalArgumentException("Template with id " + id + " not found"));
         model.addAttribute("template", template);
@@ -33,7 +33,7 @@ public class CvLatexTemplateController {
     }
 
     //TODO: Validate if name is unique but only if deleted==true
-    @PostMapping("/")
+    @PostMapping("")
     public String createTemplate(@RequestParam("name") String name, @RequestParam("content") String content) {
         templateService.createTemplate(name, content);
         return "redirect:/templates/";
@@ -48,7 +48,7 @@ public class CvLatexTemplateController {
 
     //TODO: Validate if name is unique but only if deleted==true
     //TODO: Validate if new name or content is different
-    @PostMapping("/{id}/edit")
+    @PostMapping("/{id}")
     public String editTemplate(@PathVariable Long id, @RequestParam("name") String name, @RequestParam("content") String content) {
         templateService.editTemplate(id, name, content);
         return "redirect:/templates/";

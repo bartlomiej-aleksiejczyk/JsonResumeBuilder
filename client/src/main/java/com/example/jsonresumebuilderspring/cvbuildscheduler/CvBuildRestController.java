@@ -15,7 +15,7 @@ public class CvBuildRestController {
 
     // TODO: Remove direct repository use
     private final CvBuildJobRepository cvBuildJobRepository;
-    // private final CvLatexTemplateService cvLatexTemplateService;
+    private final CvLatexTemplateService cvLatexTemplateService;
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<?> updateJobStatus(@PathVariable Long id, @RequestParam("status") JobStatus status) {
