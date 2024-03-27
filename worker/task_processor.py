@@ -28,7 +28,7 @@ def log_message(self, message):
 
     data = {'status': 'IN_PROGRESS'}
 
-    response = requests.post(url, json=data, auth=HTTPBasicAuth(username, password))
+    response = requests.patch(url, json=data, auth=HTTPBasicAuth(username, password))
     
     logging.info(f"POST request to {url} returned: {response.status_code}")
 
