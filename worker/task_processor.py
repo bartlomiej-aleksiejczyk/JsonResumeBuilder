@@ -20,7 +20,7 @@ def log_message(self, message):
     logging.info(f"Received message: {message}")
     message_id = message.get('id', '')
 
-    url = f"http://springboot_server:8080/{os.environ.get('QUEUE_EXCHANGE')}/api/v1/cv-build-job/{message_id}/status"
+    url = f"http://springboot-server:8080/{os.environ.get('QUEUE_EXCHANGE')}/api/v1/cv-build-job/{message_id}/status"
     data = {'status': 'IN_PROGRESS'}
     response = requests.post(url, json=data)
     logging.info(f"POST request to {url} returned: {response.text}")

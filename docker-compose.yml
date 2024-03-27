@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  celery_worker:
+  celery-worker:
     build:
       context: ./worker
       dockerfile: Dockerfile
@@ -12,12 +12,14 @@ services:
       - QUEUE_ROUTING_KEY=${QUEUE_ROUTING_KEY}
       - QUEUE_NAME=${QUEUE_NAME}
       - QUEUE_CELERY_TASK_BUILD_CV=${QUEUE_CELERY_TASK_BUILD_CV}
+      - SPRING_SINGLE_LOGIN=${SPRING_SINGLE_LOGIN}
+      - SPRING_SINGLE_PASSWORD=${SPRING_SINGLE_PASSWORD}
 
       - TZ=Europe/Warsaw
     networks:
       - webnet_resume
 
-  springboot_server:
+  springboot-server:
     build:
       context: ./client
       dockerfile: Dockerfile
