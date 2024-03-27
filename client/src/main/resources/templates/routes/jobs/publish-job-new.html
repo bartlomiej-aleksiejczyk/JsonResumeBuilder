@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>Publish a Job</title>
@@ -12,7 +12,7 @@
 
     <form
       action="#"
-      th:action="@{/jobs/publish}"
+      th:action="@{/jobs/new}"
       th:object="${job}"
       method="post"
     >
