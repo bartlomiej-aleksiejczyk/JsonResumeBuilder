@@ -16,20 +16,20 @@ public class CvLatexTemplateController {
     @GetMapping("/")
     public String listTemplates(Model model) {
         model.addAttribute("templates", templateService.getAllTemplates());
-        return "routes/cv-templates/cv-template-list"; // Thymeleaf template path
+        return "routes/templates/cv-template-list"; // Thymeleaf template path
     }
 
     @GetMapping("/{id}/")
     public String previewTemplate(@PathVariable Long id, Model model) {
         CvLatexTemplate template = templateService.getTemplateById(id).orElseThrow(() -> new IllegalArgumentException("Template with id " + id + " not found"));
         model.addAttribute("template", template);
-        return "routes/cv-templates/cv-template-preview";
+        return "routes/templates/cv-template-preview";
     }
 
     @GetMapping("/new")
     public String newTemplateForm(Model model) {
         model.addAttribute("template", new CvLatexTemplate());
-        return "routes/cv-templates/cv-template-new";
+        return "routes/templates/cv-template-new";
     }
 
     //TODO: Validate if name is unique but only if deleted==true
@@ -43,7 +43,7 @@ public class CvLatexTemplateController {
     public String editTemplateForm(@PathVariable Long id, Model model) {
         CvLatexTemplate template = templateService.getTemplateById(id).orElseThrow();
         model.addAttribute("template", template);
-        return "routes/cv-templates/cv-template-edit";
+        return "routes/templates/cv-template-edit";
     }
 
     //TODO: Validate if name is unique but only if deleted==true
