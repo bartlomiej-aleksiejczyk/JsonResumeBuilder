@@ -24,7 +24,7 @@ public class SecurityConfig {
 
     public static String encryptDefaultPassword(String rawPassword) {
         Argon2PasswordEncoder encoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
-        return "{noop}" + (rawPassword);
+        return "{argon2@SpringSecurity_v5_8}" + encoder.encode(rawPassword);
     }
 
     @Bean
