@@ -19,6 +19,13 @@ public class CvLatexTemplateController {
         return "routes/cv-templates/cv-template-list"; // Thymeleaf template path
     }
 
+    @GetMapping("/{id}/")
+    public String previewTemplate(@PathVariable Long id, Model model) {
+        CvLatexTemplate template = templateService.getTemplateById(id).orElseThrow(() -> new IllegalArgumentException("Template with id " + id + " not found"));
+        model.addAttribute("template", template);
+        return "routes/cv-templates/cv-template-preview";
+    }
+
     @GetMapping("/new")
     public String newTemplateForm(Model model) {
         model.addAttribute("template", new CvLatexTemplate());

@@ -13,6 +13,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -33,12 +34,14 @@ public class CvBuildJobService {
     @Value("${QUEUE_ROUTING_KEY}")
     private String jobRoutingKey;
 
-    // private CvBuildJob findCvBuildJobById(Long id) {
-    // CvBuildJob cvBuildJob = cvBuildJobRepository.get(id)
-    // .orElseThrow(() -> new EntityNotFoundException("No CvBuildJob found with id:
-    // " + id));
-    // return cvBuildJob;
-    // }
+    public CvBuildJob findCvBuildJobById(Long id) {
+        return cvBuildJobRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No CvBuildJob found with id: " + id));
+    }
+
+    public List<CvBuildJob> getAllJobs() {
+        return cvBuildJobRepository.findAll();
+    }
 
     private void sendJob(Map<String, Object> task) throws CelerySerializationException {
         try {

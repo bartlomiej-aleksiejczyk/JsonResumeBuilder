@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Details</title>
+</head>
+<body>
+<h1>Job Details</h1>
+<div>
+    <h2>Job ID: <span th:text="${job.id}"></span></h2>
+    <p>Status: <span th:text="${job.status}"></span></p>
+    <p>Template Name: <span th:text="${job.template.templateName}"></span></p>
+    <div th:if="${job.template.deleted}">
+        <strong>Note: The original template was deleted or removed. This is not the actual template but a previous version.</strong>
+    </div>
+    <p>JSON Content: <pre th:text="${job.jsonContent}"></pre></p>
+    <p>Created At: <span th:text="${#dates.format(job.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+    <div th:if="!${job.template.deleted}">
+        <a th:href="@{/templates/{id}/preview(id=${job.template.id})}">View Associated Template</a>
+    </div>
+</div>
+<a href="/jobs">Back to list</a>
+</body>
+</html>
