@@ -19,20 +19,20 @@ public class CvBuildController {
     @GetMapping("/")
     public String listJobs(Model model) {
         model.addAttribute("jobs", cvBuildJobService.getAllJobs());
-        return "routes/cv-templates/cv-template-list";
+        return "routes/jobs/cv-build-job-list";
     }
 
     @GetMapping("/{id}")
     public String showJobDetails(@PathVariable Long id, Model model) {
         model.addAttribute("job", cvBuildJobService.findCvBuildJobById(id));
-        return "routes/cv-templates/cv-template-preview";
+        return "routes/jobs/cv-build-job-preview";
     }
 
     @GetMapping("/new")
     public String showPublishJobForm(Model model) {
         model.addAttribute("job", new CvBuildJobDTO());
         model.addAttribute("templates", cvBuildJobLatexTemplateMediator.getAllNonDeletedTemplates());
-        return "routes/cv-templates/cv-template-new";
+        return "routes/jobs/cv-build-job-new";
     }
 
     @PostMapping("/")
