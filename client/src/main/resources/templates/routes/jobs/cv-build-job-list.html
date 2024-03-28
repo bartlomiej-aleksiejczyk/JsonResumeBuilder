@@ -27,7 +27,7 @@
         <a th:href="@{/templates/{id}(id=${job.template.id})}">View Template</a>
       </td>
       <td>
-        <a th:href="@{/jobs/{id}/download(id=${job.id})}" th:if="${job.cvCompilationResult}">Download Compiled File</a>
+        <a th:href="@{/{id}/compilation-result (id=${job.id})}" th:if="${job.cvCompilationResult}">Download Compiled File</a>
         <span th:unless="${job.cvCompilationResult}">No File</span>
       </td>
     </tr>
