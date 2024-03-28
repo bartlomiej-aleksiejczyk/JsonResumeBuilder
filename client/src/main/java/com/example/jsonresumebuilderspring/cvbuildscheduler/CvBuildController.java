@@ -2,6 +2,10 @@ package com.example.jsonresumebuilderspring.cvbuildscheduler;
 
 import com.example.jsonresumebuilderspring.cvbuildscheduler.dtos.CvBuildJobDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +31,19 @@ public class CvBuildController {
     public String showJobDetails(@PathVariable Long id, Model model) {
         model.addAttribute("job", cvBuildJobService.findCvBuildJobById(id));
         return "routes/jobs/cv-build-job-preview";
+    }
+
+    @GetMapping("/jobs/{jobId}/download")
+    public ResponseEntity<byte[]> downloadCompiledFile(@PathVariable Long jobId) {
+        CvBuildJob job = cvBuildJobService.findCvBuildJobById(jobId);
+
+        byte[] content = job.getCvCompilationResult();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("filename", "compiled_job_" + jobId + ".pdf");
+        headers.setContentType(MediaType.APPLICATION_PDF);
+
+        return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
     //TODO: Validate form
