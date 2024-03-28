@@ -15,7 +15,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN useradd -m myuser
+RUN useradd -m myuser && \
+    chown -R myuser:myuser /usr/src/app
 USER myuser
 
 ENTRYPOINT ["celery", "-A", "task_processor", "worker"]
