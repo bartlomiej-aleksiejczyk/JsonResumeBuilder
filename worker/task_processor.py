@@ -62,7 +62,7 @@ def process_message_and_compile_latex(self, message):
     }
 
     try:
-        response = requests.post(url, files=files, auth=HTTPBasicAuth(username, password))
+        response = requests.patch(url, files=files, auth=HTTPBasicAuth(username, password))
         logging.info(f"POST request to {url} returned: {response.status_code}")
     except Exception as e:
         logging.error(f"Error sending status update and file: {e}")
