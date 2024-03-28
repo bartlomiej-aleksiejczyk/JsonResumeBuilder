@@ -29,6 +29,7 @@ public class CvBuildController {
         return "routes/jobs/cv-build-job-preview";
     }
 
+    //TODO: Validate form
     @GetMapping("/new")
     public String showPublishJobForm(Model model) {
         model.addAttribute("job", new CvBuildJobDTO());
