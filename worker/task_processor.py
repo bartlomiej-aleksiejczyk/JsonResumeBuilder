@@ -2,7 +2,7 @@ import os
 import logging
 import requests
 from celery import Celery
-from jinja2 import Environment, FileSystemLoader, Template
+from jinja2 import Environment, FileSystemLoader
 from requests.auth import HTTPBasicAuth
 
 logging.basicConfig(level=logging.INFO)
@@ -24,12 +24,28 @@ def process_message_and_compile_latex(self, message):
     data = message.get('json_content', {})  # Assuming this is already a dict
 
     try:
-        template = Template(template_content)
+        env = Environment(
+            loader=FileSystemLoader('.'),
+            block_start_string='\BLOCK{',
+            block_end_string='}',
+            variable_start_string='\VAR{',
+            variable_end_string='}',
+            comment_start_string='\#{',
+            comment_end_string='}',
+            line_statement_prefix='%%',
+            line_comment_prefix='%#',
+            trim_blocks=True,
+            autoescape=False,
+        )
+
+        template = env.from_string(template_content)
         filled_content = template.render(data)
+        
         output_filename = f'filled_template_{message_id}.tex'
         with open(output_filename, 'w') as file:
             file.write(filled_content)
         logging.info(f"Template rendered and saved to {output_filename}")
+
     except Exception as e:
         logging.error(f"Error rendering template: {e}")
         return
@@ -50,7 +66,7 @@ def process_message_and_compile_latex(self, message):
     except Exception as e:
         logging.error(f"Error sending status update and file: {e}")
     finally:
-        os.remove(output_filename)  # Cleanup the generated file
+        os.remove(output_filename)
 
 if __name__ == '__main__':
     app.worker_main(argv=[
