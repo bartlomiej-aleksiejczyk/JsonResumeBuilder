@@ -1,11 +1,9 @@
 import os
-import json
 import logging
 import requests
 from celery import Celery
-from jinja2 import Environment, Template
+from jinja2 import Environment, FileSystemLoader
 from requests.auth import HTTPBasicAuth
-
 
 logging.basicConfig(level=logging.INFO)
 
@@ -23,7 +21,7 @@ def process_message_and_compile_latex(self, message):
 
     message_id = message.get('id', '')
     template_content = message.get('template_content', '')
-    data = message.get('json_content', {})  # Assuming this is already a dict, if not, use json.loads()
+    data = message.get('json_content', {})  # Assuming this is already a dict
 
     try:
         template = Template(template_content)
@@ -39,13 +37,20 @@ def process_message_and_compile_latex(self, message):
     username = os.environ.get('SPRING_SINGLE_LOGIN')
     password = os.environ.get('SPRING_SINGLE_PASSWORD')
     url = f"http://springboot-server:8080/{os.environ.get('QUEUE_EXCHANGE')}/api/v1/cv-build-job/{message_id}/status"
-    status_update = {'status': 'IN_PROGRESS'}
+    status_update = json.dumps({'status': 'IN_PROGRESS'})
+
+    files = {
+        'statusUpdate': ('', status_update, 'application/json'),
+        'file': (output_filename, open(output_filename, 'rb'), 'application/octet-stream')
+    }
 
     try:
-        response = requests.post(url, json=status_update, auth=HTTPBasicAuth(username, password))
+        response = requests.post(url, files=files, auth=HTTPBasicAuth(username, password))
         logging.info(f"POST request to {url} returned: {response.status_code}")
     except Exception as e:
-        logging.error(f"Error sending status update: {e}")
+        logging.error(f"Error sending status update and file: {e}")
+    finally:
+        os.remove(output_filename)  # Cleanup the generated file
 
 if __name__ == '__main__':
     app.worker_main(argv=[

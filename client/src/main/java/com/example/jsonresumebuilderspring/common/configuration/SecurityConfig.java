@@ -28,8 +28,8 @@ public class SecurityConfig {
         Argon2PasswordEncoder encoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
         return "{argon2@SpringSecurity_v5_8}" + encoder.encode(rawPassword);
     }
-
     @Bean
+    //TODO: Separate auth for server-to-server and user-to-server endpoints
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(requests -> requests

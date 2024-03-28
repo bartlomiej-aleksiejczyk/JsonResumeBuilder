@@ -12,7 +12,9 @@ import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,11 +47,18 @@ public class CvBuildJobService {
         return cvBuildJobRepository.findAll();
     }
 
-    public CvBuildJob updateBuildJobStatus(Long id, JobStatus status) {
+    public CvBuildJob updateBuildJobStatus(Long id, JobStatus status, MultipartFile file) {
         CvBuildJob job = cvBuildJobRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No CvBuildJob found with id: " + id));
         job.setStatus(status);
+
+        try {
+            byte[] cvCompilationResult = file.getBytes();
+            job.setCvCompilationResult(cvCompilationResult);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read file contents", e);
+        }
         cvBuildJobRepository.saveAndFlush(job);
         return job;
     }
