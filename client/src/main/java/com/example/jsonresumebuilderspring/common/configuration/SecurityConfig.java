@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
                 .logout(Customizer.withDefaults())
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/**"));
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"));
         return http.build();
     }
 
