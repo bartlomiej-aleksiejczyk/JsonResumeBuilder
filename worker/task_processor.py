@@ -2,7 +2,7 @@ import os
 import logging
 import requests
 from celery import Celery
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, Template
 from requests.auth import HTTPBasicAuth
 
 logging.basicConfig(level=logging.INFO)
