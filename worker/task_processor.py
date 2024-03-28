@@ -2,6 +2,7 @@ import os
 import logging
 import requests
 import json
+import subprocess
 from celery import Celery
 from jinja2 import Environment, FileSystemLoader
 from requests.auth import HTTPBasicAuth
@@ -22,7 +23,10 @@ def process_message_and_compile_latex(self, message):
 
     message_id = message.get('id', '')
     template_content = message.get('template_content', '')
-    data = message.get('json_content', {})  # Assuming this is already a dict
+    data = message.get('json_content', {})
+
+    output_tex_filename = f'filled_template_{message_id}.tex'
+    output_pdf_filename = f'filled_template_{message_id}.pdf'
 
     try:
         env = Environment(
@@ -42,13 +46,16 @@ def process_message_and_compile_latex(self, message):
         template = env.from_string(template_content)
         filled_content = template.render(data)
         
-        output_filename = f'filled_template_{message_id}.tex'
-        with open(output_filename, 'w') as file:
+        with open(output_tex_filename, 'w') as file:
             file.write(filled_content)
-        logging.info(f"Template rendered and saved to {output_filename}")
+        logging.info(f"Template rendered and saved to {output_tex_filename}")
+
+        compile_cmd = ['pdflatex', '-interaction=nonstopmode', output_tex_filename]
+        subprocess.run(compile_cmd, check=True)
+        logging.info(f"Compiled LaTeX document to PDF: {output_pdf_filename}")
 
     except Exception as e:
-        logging.error(f"Error rendering template: {e}")
+        logging.error(f"Error processing template: {e}")
         return
 
     username = os.environ.get('SPRING_SINGLE_LOGIN')
@@ -58,16 +65,17 @@ def process_message_and_compile_latex(self, message):
 
     files = {
         'statusUpdate': ('', status_update, 'application/json'),
-        'file': (output_filename, open(output_filename, 'rb'), 'application/octet-stream')
+        'file': (output_pdf_filename, open(output_pdf_filename, 'rb'), 'application/pdf')
     }
 
     try:
         response = requests.patch(url, files=files, auth=HTTPBasicAuth(username, password))
-        logging.info(f"POST request to {url} returned: {response.status_code}")
+        logging.info(f"PATCH request to {url} returned: {response.status_code}")
     except Exception as e:
         logging.error(f"Error sending status update and file: {e}")
     finally:
-        os.remove(output_filename)
+        os.remove(output_tex_filename)
+        os.remove(output_pdf_filename)
 
 if __name__ == '__main__':
     app.worker_main(argv=[
