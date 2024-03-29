@@ -22,18 +22,18 @@ app.conf.task_queues = {
 def process_message_and_compile_latex(self, message):
     try:
 
-    logging.info(f"Received message: {message}")
+        logging.info(f"Received message: {message}")
 
-    message_id = message.get('id', '')
-    template_content = message.get('template_content', '')
-    data = message.get('json_content', {})
+        message_id = message.get('id', '')
+        template_content = message.get('template_content', '')
+        data = message.get('json_content', {})
 
-    output_tex_filename = f'filled_template_{message_id}.tex'
-    output_pdf_filename = f'filled_template_{message_id}.pdf'
+        output_tex_filename = f'filled_template_{message_id}.tex'
+        output_pdf_filename = f'filled_template_{message_id}.pdf'
 
-    username = os.environ.get('SPRING_SINGLE_LOGIN')
-    password = os.environ.get('SPRING_SINGLE_PASSWORD')
-    url = f"http://springboot-server:8080/{os.environ.get('QUEUE_EXCHANGE')}/api/v1/cv-build-job/{message_id}/status"
+        username = os.environ.get('SPRING_SINGLE_LOGIN')
+        password = os.environ.get('SPRING_SINGLE_PASSWORD')
+        url = f"http://springboot-server:8080/{os.environ.get('QUEUE_EXCHANGE')}/api/v1/cv-build-job/{message_id}/status"
     
         env = Environment(
             loader=FileSystemLoader('.'),
