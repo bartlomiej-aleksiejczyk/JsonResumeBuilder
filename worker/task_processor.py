@@ -50,8 +50,9 @@ def process_message_and_compile_latex(self, message):
         )
         logging.info(f"Template with filled content {data}")
 
+        data_dict = json.loads(data) 
         template = env.from_string(template_content)
-        filled_content = template.render(data)
+        filled_content = template.render(data_dict)
 
         logging.info(f"Template with filled content {filled_content}")
         with open(output_tex_filename, 'w') as file:
