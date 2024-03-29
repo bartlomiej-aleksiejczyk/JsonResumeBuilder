@@ -18,6 +18,10 @@
     <div th:if="!${job.template.deleted}">
         <a th:href="@{/templates/{id} (id=${job.template.id})}">View Associated Template</a>
     </div>
+    <a
+    th:href="@{/{id}/compilation-result (id=${job.id})}"
+    th:if="${job.cvCompilationResult}"
+    >Download Compiled File</a>
 </div>
 <a href="/jobs">Back to list</a>
 </body>

@@ -1,38 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>List of Jobs</title>
-</head>
-<body>
-<h1>List of Jobs</h1>
-<div>
-  <table>
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Template Name</th>
-      <th>Status</th>
-      <th>Created At</th>
-      <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="job : ${jobs}">
-      <td th:text="${job.id}"></td>
-      <td th:text="${job.template.templateName}"></td>
-      <td th:text="${job.status}"></td>
-      <td th:text="${#temporals.format(job.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
-      <td>
-        <a th:href="@{/templates/{id}(id=${job.template.id})}">View Template</a>
-      </td>
-      <td>
-        <a th:href="@{/{id}/compilation-result (id=${job.id})}" th:if="${job.cvCompilationResult}">Download Compiled File</a>
-        <span th:unless="${job.cvCompilationResult}">No File</span>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>List of Jobs</title>
+  </head>
+  <body>
+    <h1>List of Jobs</h1>
+    <div>
+      <table>
+        <caption>
+          All CV build jobs
+        </caption>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Template Name</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Actions</th>
+            <th>Compiled content</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="job : ${jobs}">
+            <td th:text="${job.id}"></td>
+            <td th:text="${job.template.templateName}"></td>
+            <td th:text="${job.status}"></td>
+            <td
+              th:text="${#temporals.format(job.createdAt, 'yyyy-MM-dd HH:mm')}"
+            ></td>
+            <td>
+              <a th:href="@{/templates/{id}(id=${job.template.id})}"
+                >View Template</a
+              >
+            </td>
+            <td>
+              <a
+                th:href="@{/{id}/compilation-result (id=${job.id})}"
+                th:if="${job.cvCompilationResult}"
+                >Download Compiled File</a
+              >
+              <span th:unless="${job.cvCompilationResult}">No File</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
 </html>
