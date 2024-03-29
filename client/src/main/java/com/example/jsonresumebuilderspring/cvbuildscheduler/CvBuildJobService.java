@@ -53,12 +53,15 @@ public class CvBuildJobService {
                 .orElseThrow(() -> new EntityNotFoundException("No CvBuildJob found with id: " + id));
         job.setStatus(status);
 
-        try {
-            byte[] cvCompilationResult = file.getBytes();
-            job.setCvCompilationResult(cvCompilationResult);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read file contents", e);
+        if (file != null && !file.isEmpty()) {
+            try {
+                byte[] cvCompilationResult = file.getBytes();
+                job.setCvCompilationResult(cvCompilationResult);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to read file contents", e);
+            }
         }
+
         cvBuildJobRepository.saveAndFlush(job);
         return job;
     }

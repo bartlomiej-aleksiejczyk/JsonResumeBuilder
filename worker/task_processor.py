@@ -68,7 +68,7 @@ def process_message_and_compile_latex(self, message):
         return report_task_failure(url, username, password)
 
   
-    status_update = json.dumps({'status': 'IN_PROGRESS'})
+    status_update = json.dumps({'status': 'COMPLETED'})
 
     files = {
         'statusUpdate': ('', status_update, 'application/json'),
