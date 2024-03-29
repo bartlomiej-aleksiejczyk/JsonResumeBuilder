@@ -89,12 +89,12 @@ public class CvBuildJobService {
         Map<String, Object> args = new HashMap<>();
 
         args.put("id", newJobId);
-        args.put("content", cvBuildJobDTO.getJsonContent());
+        args.put("json_content", cvBuildJobDTO.getJsonContent());
         args.put("template_content", template.getTemplateContent());
 
         task.put("id", String.valueOf(newJob.getId()));
         task.put("task", celeryTaskName);
-        task.put("args", new Object[]{args});
+        task.put("args", new Object[] { args });
         task.put("kwargs", new HashMap<>());
         task.put("retries", 0);
         task.put("eta", null);
