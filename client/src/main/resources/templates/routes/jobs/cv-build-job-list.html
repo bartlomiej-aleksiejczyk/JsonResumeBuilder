@@ -36,7 +36,7 @@
             </td>
             <td>
               <a
-                th:href="@{/{id}/compilation-result (id=${job.id})}"
+                th:href="@{/jobs/{id}/compilation-result (id=${job.id})}"
                 th:if="${job.cvCompilationResult}"
                 >Download Compiled File</a
               >
