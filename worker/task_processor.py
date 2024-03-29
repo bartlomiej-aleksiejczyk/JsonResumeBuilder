@@ -17,7 +17,7 @@ app.conf.task_queues = {
     },
 }
 
-//TODO: Improve error handling i want everything worng to fail task
+#TODO: Improve error handling i want everything worng to fail task
 @app.task(bind=True, name=os.environ.get('QUEUE_CELERY_TASK_BUILD_CV'))
 def process_message_and_compile_latex(self, message):
     try:
