@@ -33,7 +33,7 @@ public class CvBuildController {
         return "routes/jobs/cv-build-job-preview";
     }
 
-    @GetMapping("/jobs/{jobId}/download")
+    @GetMapping("/{jobId}/compilation-result")
     public ResponseEntity<byte[]> downloadCompiledFile(@PathVariable Long jobId) {
         CvBuildJob job = cvBuildJobService.findCvBuildJobById(jobId);
 
