@@ -48,10 +48,12 @@ def process_message_and_compile_latex(self, message):
             trim_blocks=True,
             autoescape=False,
         )
+        logging.info(f"Template with filled content {data}")
 
         template = env.from_string(template_content)
         filled_content = template.render(data)
-        
+
+        logging.info(f"Template with filled content {filled_content}")
         with open(output_tex_filename, 'w') as file:
             file.write(filled_content)
         logging.info(f"Template rendered and saved to {output_tex_filename}")
