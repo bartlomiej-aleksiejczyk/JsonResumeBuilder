@@ -14,6 +14,7 @@ public class CvBuildRestController {
 
     private final CvBuildJobService cvBuildJobService;
 
+    // TODO: Add pagination to list endpoints
     // TODO: Unify error handling, end http status generation
     @PatchMapping(value = "/{id}/status", consumes = { "multipart/form-data" })
     public ResponseEntity<CvBuildJob> updateJobStatus(

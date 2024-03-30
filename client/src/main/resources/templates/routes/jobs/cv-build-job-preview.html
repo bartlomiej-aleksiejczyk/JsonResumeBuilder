@@ -3,26 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <title>Job Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Source Code Pro', monospace;
+            background-color: #2f2f2f; /* Lighter shade of gray */
+            color: #cfcfcf; /* Soft white color for text */
+            padding: 0;
+            margin: 0;
+        }
+        nav {
+            background: #2f2f2f; /* Consistent with the body for a seamless look */
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: #cfcfcf;
+            text-decoration: none;
+            padding: 8px 16px;
+            margin: 0 10px; /* Increased margin for more separation */
+            font-weight: 400; /* Normal font weight for a lighter look */
+            letter-spacing: 1px; /* Spacing out the letters for a sleek appearance */
+            transition: all 0.3s ease; /* Smooth transition for multiple properties */
+            position: relative; /* For pseudo-element positioning */
+        }
+        nav a:hover, nav a:focus {
+            background-color: transparent; /* Removing the background */
+            color: #ffffff;
+            outline: none;
+        }
+        nav a:hover::after, nav a:focus::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #ffffff; /* White underline for hover/focus */
+            position: absolute;
+            bottom: -6px; /* Positioning the line just below the text */
+            left: 0;
+        }
+        .content {
+            margin: 20px;
+            background-color: #363636; /* Background for content */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Soft shadow for depth */
+            max-width: 900px; /* Set a max-width for wide screens */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #cfcfcf;
+            background-color: #4a4a4a;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .back-link:hover, .back-link:focus {
+            background-color: #616161;
+            color: #ffffff;
+            text-decoration: none;
+            outline: none;
+        }
+    </style>
 </head>
 <body>
-<h1>Job Details</h1>
-<div>
-    <h2>Job ID: <span th:text="${job.id}"></span></h2>
-    <p>Status: <span th:text="${job.status}"></span></p>
-    <p>Template Name: <span th:text="${job.template.templateName}"></span></p>
-    <div th:if="${job.template.deleted}">
-        <strong>Note: The original template was deleted or removed. This is not the actual template but a previous version.</strong>
+    <nav>
+        <a href="/home">Home</a>
+        <a href="/jobs">Jobs</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+    </nav>
+    <div class="content">
+        <h1>Job Details</h1>
+        <div>
+            <h2>Job ID: <span th:text="${job.id}"></span></h2>
+            <p>Status: <span th:text="${job.status}"></span></p>
+            <p>Template Name: <span th:text="${job.template.templateName}"></span></p>
+            <div th:if="${job.template.deleted}">
+                <strong>Note: The original template was deleted or removed. This is not the actual template but a previous version.</strong>
+            </div>
+            <p>JSON Content: <pre th:text="${job.jsonContent}"></pre></p>
+            <p>Created At: <span th:text="${#temporals.format(job.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+            <div th:if="!${job.template.deleted}">
+                <a th:href="@{/templates/{id} (id=${job.template.id})}">View Associated Template</a>
+            </div>
+            <a th:href="@{/{id}/compilation-result (id=${job.id})}" th:if="${job.cvCompilationResult}">Download Compiled File</a>
+        </div>
+        <a href="/jobs" class="back-link">Back to list</a>
     </div>
-    <p>JSON Content: <pre th:text="${job.jsonContent}"></pre></p>
-    <p>Created At: <span th:text="${#temporals.format(job.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
-    <div th:if="!${job.template.deleted}">
-        <a th:href="@{/templates/{id} (id=${job.template.id})}">View Associated Template</a>
-    </div>
-    <a
-    th:href="@{/{id}/compilation-result (id=${job.id})}"
-    th:if="${job.cvCompilationResult}"
-    >Download Compiled File</a>
-</div>
-<a href="/jobs">Back to list</a>
 </body>
 </html>
