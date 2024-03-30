@@ -27,9 +27,9 @@ public class CvBuildController {
         return "routes/jobs/cv-build-job-list";
     }
 
-    @GetMapping("/{id}")
-    public String showJobDetails(@PathVariable Long id, Model model) {
-        model.addAttribute("job", cvBuildJobService.findCvBuildJobById(id));
+    @GetMapping("/{jobId}")
+    public String showJobDetails(@PathVariable Long jobId, Model model) {
+        model.addAttribute("job", cvBuildJobService.findCvBuildJobById(jobId));
         return "routes/jobs/cv-build-job-preview";
     }
 
@@ -46,7 +46,15 @@ public class CvBuildController {
         return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
-    //TODO: Validate form
+    @GetMapping("/{jobId}/json-content")
+    public String showJobJsonContent(@PathVariable Long jobId, Model model) {
+        CvBuildJob job = cvBuildJobService.findCvBuildJobById(jobId);
+        String content = job.getJsonContent();
+        model.addAttribute("jsonContent", content);
+        return "routes/jobs/[jobId]/cv-build-job-json-content";
+    }
+
+    // TODO: Validate form
     @GetMapping("/new")
     public String showPublishJobForm(Model model) {
         model.addAttribute("job", new CvBuildJobDTO());
