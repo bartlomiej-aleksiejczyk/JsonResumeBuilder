@@ -23,23 +23,31 @@
         </thead>
         <tbody>
           <tr th:each="job : ${jobs}">
-            <td th:text="${job.id}"></td>
+            <td>
+              <a th:href="@{/jobs/{id}(id=${job.id})}" th:text="${job.id}">
+                Job Link and ID
+              </a>
+            </td>
             <td th:text="${job.template.templateName}"></td>
             <td th:text="${job.status}"></td>
             <td
               th:text="${#temporals.format(job.createdAt, 'yyyy-MM-dd HH:mm')}"
             ></td>
             <td>
-              <a th:href="@{/templates/{id}(id=${job.template.id})}"
-                >View Template</a
-              >
+              <a th:href="@{/templates/{id}(id=${job.template.id})}">
+                View Template
+              </a>
+              <a th:href="@{/jobs/{id}/json-content (id=${job.template.id})}">
+                View JSON Content
+              </a>
             </td>
             <td>
               <a
                 th:href="@{/jobs/{id}/compilation-result (id=${job.id})}"
                 th:if="${job.cvCompilationResult}"
-                >Download Compiled File</a
               >
+                Download Compiled File
+              </a>
               <span th:unless="${job.cvCompilationResult}">No File</span>
             </td>
           </tr>

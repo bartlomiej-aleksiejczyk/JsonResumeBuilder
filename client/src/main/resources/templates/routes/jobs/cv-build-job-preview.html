@@ -14,7 +14,7 @@
         <strong>Note: The original template was deleted or removed. This is not the actual template but a previous version.</strong>
     </div>
     <p>JSON Content: <pre th:text="${job.jsonContent}"></pre></p>
-    <p>Created At: <span th:text="${#dates.format(job.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+    <p>Created At: <span th:text="${#temporals.format(job.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
     <div th:if="!${job.template.deleted}">
         <a th:href="@{/templates/{id} (id=${job.template.id})}">View Associated Template</a>
     </div>
