@@ -1,0 +1,17 @@
+.hero {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(to bottom, #2f2f2f 0%, #333 100%);
+  color: #f2f2f2;
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.75em;
+  }
+
+  p {
+    font-size: 1em;
+    max-width: 20rem;
+    margin: 0 auto 2rem;
+  }
+}

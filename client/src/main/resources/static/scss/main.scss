@@ -1,0 +1,8 @@
+// Importing base styles
+@use "base/reset";
+@use "base/base";
+
+// Importing component styles
+@use "component/back-link";
+@use "component/content";
+@use "component/hero";

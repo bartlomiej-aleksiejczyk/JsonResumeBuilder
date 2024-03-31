@@ -1,0 +1,18 @@
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #cfcfcf;
+  background-color: #4a4a4a;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+
+  &:hover,
+  &:focus {
+    background-color: #616161;
+    color: #ffffff;
+    text-decoration: none;
+    outline: none;
+  }
+}
