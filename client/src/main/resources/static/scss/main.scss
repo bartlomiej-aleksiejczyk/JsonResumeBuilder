@@ -1,6 +1,8 @@
 // Importing base styles
 @use "base/reset";
 @use "base/base";
+@use "base/navigation";
+@use "base/layout-elements";
 
 // Importing component styles
 @use "components/back-link";
