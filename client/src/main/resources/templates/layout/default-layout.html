@@ -28,10 +28,6 @@
       th:replace="~{layout/elements/_topbar-navigation :: topbar-navigation}"
     ></div>
     <div th:replace="${content}"></div>
-    <th:block
-      th:if="${not #strings.isEmpty(extraText)}"
-      th:text="${extraText}"
-    ></th:block>
     <div th:replace="~{layout/elements/_footer :: footer}"></div>
     <th:block th:replace="${extraJs}"></th:block>
   </body>
