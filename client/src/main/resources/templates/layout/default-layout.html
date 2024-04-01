@@ -4,13 +4,17 @@
   th:with="extraJs=${extraJs} ? ${extraJs} : ~{},
    extraCss=${extraCss} ? ${extraCss} : ~{},
     extraText=${extraText} ? ${extraText} : 'no extra text',
-    topbarHeaderText=${topbarHeaderText} ? ${topbarHeaderText} : ~{}"
+    topbarHeaderText=${topbarHeaderText} ? ${topbarHeaderText} : 'Default Header Hero'"
   xmlns:th="http://www.thymeleaf.org"
   lang="en"
 >
   <head>
     <meta charset="UTF-8" />
     <title th:text="${title}">Default Title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />   
     <th:block th:replace="${extraCss}"></th:block>
   </head>
   <body>
