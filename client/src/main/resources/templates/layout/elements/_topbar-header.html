@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
   <body>
-    <div th:fragment="topbar-header (topbarHeaderText)">
-      <div class="hero">
-        <h1 th:text="${topbarHeaderText}">Default Title</h1>
-      </div>
+    <div class="hero" th:fragment="topbar-header (topbarHeaderText)">
+      <h1 th:text="${topbarHeaderText}">Default Title</h1>
     </div>
   </body>
 </html>

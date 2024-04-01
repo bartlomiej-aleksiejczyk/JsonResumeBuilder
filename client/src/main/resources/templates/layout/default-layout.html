@@ -25,7 +25,7 @@
       th:if="${not #strings.isEmpty(extraText)}"
       th:text="${extraText}"
     ></th:block>
-    <footer th:replace="~{layout/elements/_footer :: footer}"></footer>
+    <div th:replace="~{layout/elements/_footer :: footer}"></div>
     <th:block th:replace="${extraJs}"></th:block>
   </body>
 </html>
