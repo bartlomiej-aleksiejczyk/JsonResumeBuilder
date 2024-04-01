@@ -1,0 +1,89 @@
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+body {
+  font-family: "Source Code Pro", monospace;
+  background-color: #2f2f2f;
+  color: #cfcfcf;
+  padding: 0;
+  margin: 0;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #cfcfcf;
+  background-color: #4a4a4a;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+.back-link:hover, .back-link:focus {
+  background-color: #616161;
+  color: #ffffff;
+  text-decoration: none;
+  outline: none;
+}
+
+.content {
+  margin: 2rem;
+  background-color: #363636;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  max-width: 50vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(to bottom, #2f2f2f 0%, #333 100%);
+  color: #f2f2f2;
+}
+.hero h2 {
+  margin-bottom: 1rem;
+  font-size: 1.75em;
+}
+.hero p {
+  font-size: 1em;
+  max-width: 20rem;
+  margin: 0 auto 2rem;
+}
+
+/*# sourceMappingURL=main.css.map */
