@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html
+  th:fragment="layout (title, content)"
+  th:with="extraJs=${extraJs} ? ${extraJs} : ~{}, extraCss=${extraCss} ? ${extraCss} : ~{}, extraText=${extraText} ? ${extraText} : 'no extra text'"
+  xmlns:th="http://www.thymeleaf.org"
+  lang="en"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title th:text="${title}">Default Title</title>
+    <th:block th:replace="${extraCss}"></th:block>
+  </head>
+  <body>
+    <header th:replace="~{layout/topbar :: topbar}"></header>
+    <nav th:replace="~{layout/sidebar :: sidebar}"></nav>
+    <section>
+      <div th:replace="${content}"></div>
+    </section>
+    <th:block
+      th:if="${not #strings.isEmpty(extraText)}"
+      th:text="${extraText}"
+    ></th:block>
+    <footer th:replace="~{layout/footer :: footer}"></footer>
+    <th:block th:replace="${extraJs}"></th:block>
+  </body>
+</html>
