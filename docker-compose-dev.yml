@@ -3,6 +3,24 @@ version: "3.8"
 #WARNING THIS COMPOSE FILE IS SOLELY FOR LOCAL DEVELOPMENT PURPOSES
 #IT IS NOT SUITABLE FOR PRODUCTION NOR IT MUST NOT CONTAIN ANY SENSITIVE DATA UNDER ANY CIRCUMSTANCES
 services:
+  postgres:
+    image: "postgres:13"
+    environment:
+      - POSTGRES_USER=postgres_user
+      - POSTGRES_PASSWORD=postgres_password
+      - POSTGRES_DB=mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres_user -d mydatabase"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - webnet_resume
+
   celery-worker:
     build:
       context: ./worker
@@ -58,17 +76,6 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    networks:
-      - webnet_resume
-
-  postgres:
-    image: "postgres:13"
-    environment:
-      - POSTGRES_USER=postgres_user
-      - POSTGRES_PASSWORD=postgres_password
-      - POSTGRES_DB=mydatabase
-    ports:
-      - "5432:5432"
     networks:
       - webnet_resume
 

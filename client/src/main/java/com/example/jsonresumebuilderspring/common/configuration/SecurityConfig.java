@@ -19,6 +19,7 @@ public class SecurityConfig {
 
     @Value("${IMAGE_NAME}")
     private String rootUrl;
+
     @Value("${SPRING_SINGLE_LOGIN}")
     private String login;
     @Value("${SPRING_SINGLE_PASSWORD}")
