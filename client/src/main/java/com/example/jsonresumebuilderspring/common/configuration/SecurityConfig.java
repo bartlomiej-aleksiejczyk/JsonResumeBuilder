@@ -19,7 +19,7 @@ public class SecurityConfig {
 
     @Value("${IMAGE_NAME}")
     private String rootUrl;
-    @Value("${SPRING_SINGLE_PASSWORD}")
+    @Value("${SPRING_SINGLE_LOGIN}")
     private String login;
     @Value("${SPRING_SINGLE_PASSWORD}")
     private String rawPassword;
@@ -28,13 +28,13 @@ public class SecurityConfig {
         Argon2PasswordEncoder encoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
         return "{argon2@SpringSecurity_v5_8}" + encoder.encode(rawPassword);
     }
+
     @Bean
-    //TODO: Separate auth for server-to-server and user-to-server endpoints
+    // TODO: Separate auth for server-to-server and user-to-server endpoints
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(requests -> requests
-                        .anyRequest().authenticated()
-                        )
+                        .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
                 .logout(Customizer.withDefaults())
