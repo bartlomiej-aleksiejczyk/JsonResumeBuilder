@@ -1,0 +1,80 @@
+version: "3.8"
+
+#WARNING THIS COMPOSE FILE IS SOLELY FOR LOCAL DEVELOPMENT PURPOSES
+#IT IS NOT SUITABLE FOR PRODUCTION NOR IT MUST NOT CONTAIN ANY SENSITIVE DATA UNDER ANY CIRCUMSTANCES
+services:
+  celery-worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    environment:
+      - CELERY_BROKER_URL=amqp://rabbitmq_user:rabbitmq_password@rabbitmq:5672//
+      - SCHEDULER_API_URL=http://springboot-server:8080/scheduler
+      - QUEUE_EXCHANGE=my_exchange
+      - QUEUE_ROUTING_KEY=my_routing_key
+      - QUEUE_NAME=my_queue
+      - QUEUE_CELERY_TASK_BUILD_CV=my_task
+      - SPRING_SINGLE_LOGIN=admin
+      - SPRING_SINGLE_PASSWORD=password
+      - TZ=Europe/Warsaw
+    depends_on:
+      - rabbitmq
+      - springboot-server
+    networks:
+      - webnet_resume
+
+  springboot-server:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_SINGLE_LOGIN=admin
+      - SPRING_SINGLE_PASSWORD=password
+      - DB_USERNAME=postgres_user
+      - DB_PASSWORD=postgres_password
+      - SPRING_DB_PROD_URL=jdbc:postgresql://postgres:5432/mydatabase
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=rabbitmq_user
+      - RABBITMQ_PASSWORD=rabbitmq_password
+      - QUEUE_EXCHANGE=my_exchange
+      - QUEUE_ROUTING_KEY=my_routing_key
+      - QUEUE_CELERY_TASK_BUILD_CV=my_task
+      - IMAGE_NAME=springboot-resume-builder
+      - TZ=Europe/Warsaw
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      - postgres
+      - rabbitmq
+    networks:
+      - webnet_resume
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmq_user
+      - RABBITMQ_DEFAULT_PASS=rabbitmq_password
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - webnet_resume
+
+  postgres:
+    image: "postgres:13"
+    environment:
+      - POSTGRES_USER=postgres_user
+      - POSTGRES_PASSWORD=postgres_password
+      - POSTGRES_DB=mydatabase
+    ports:
+      - "5432:5432"
+    networks:
+      - webnet_resume
+
+networks:
+  webnet_resume:
+
+volumes:
+  postgres_data:
+    driver: local
