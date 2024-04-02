@@ -20,13 +20,16 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
     <th:block th:replace="${extraCss}"></th:block>
   </head>
-  <body>
-    <div
-      th:replace="~{layout/elements/_topbar-header :: topbar-header(topbarHeaderText=${topbarHeaderText})}"
-    ></div>
-    <div
-      th:replace="~{layout/elements/_topbar-navigation :: topbar-navigation}"
-    ></div>
+  <body class="page">
+    <div class="page__content">
+      <div
+        th:replace="~{layout/elements/_topbar-header :: topbar-header(topbarHeaderText=${topbarHeaderText})}"
+      ></div>
+      <div
+        th:replace="~{layout/elements/_topbar-navigation :: topbar-navigation}"
+      ></div>
+    </div>
+
     <div th:replace="${content}"></div>
     <div th:replace="~{layout/elements/_footer :: footer}"></div>
     <th:block th:replace="${extraJs}"></th:block>

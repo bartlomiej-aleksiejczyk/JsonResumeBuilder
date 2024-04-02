@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Template Preview</title>
-</head>
-<body>
-<div class="container">
-    <h1>CV LaTeX Template Preview</h1>
-    <div class="template-preview">
+  </head>
+  <body>
+    <div class="container">
+      <h1>CV LaTeX Template Preview</h1>
+      <div class="template-preview">
         <h2>Template Name:</h2>
         <p th:text="${template.templateName}"></p>
         <h2>Template Content:</h2>
-        <pre th:text="${template.templateContent}"></pre> <!-- Use 'pre' for preformatted text -->
+        <pre th:text="${template.templateContent}"></pre>
 
-        <!-- Display soft delete information -->
         <div th:if="${template.deleted}" class="alert alert-warning">
-            <strong>Warning!</strong> This template has been marked as deleted and is no longer active.
-            It is retained for historical reference or future restoration.
+          <strong>Warning!</strong> This template has been marked as deleted and
+          is no longer active. It is retained for historical reference or future
+          restoration.
         </div>
         <div th:unless="${template.deleted}" class="alert alert-success">
-            This template is active and available for use.
+          This template is active and available for use.
         </div>
+      </div>
+      <a th:href="@{/templates}">Back to list</a>
     </div>
-    <a th:href="@{/templates}">Back to list</a>
-</div>
-</body>
+  </body>
 </html>
