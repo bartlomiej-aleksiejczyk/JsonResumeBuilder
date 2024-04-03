@@ -28,7 +28,7 @@
             <td th:text="${template.templateName}">Template Name</td>
             <td th:text="${template.templateContent}">Template Content</td>
             <td>
-              <a th:href="@{/templates/{id}/edit(id=${template.id})}">Edit</a> |
+              <a th:href="@{/templates/{id}/edit(id=${template.id})}">Edit</a>
               <form
                 th:action="@{/templates/{id}/delete(id=${template.id})}"
                 method="post"
