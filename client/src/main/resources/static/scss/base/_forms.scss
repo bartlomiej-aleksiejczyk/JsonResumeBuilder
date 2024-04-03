@@ -1,20 +1,23 @@
-button {
+button,
+input[type="submit"],
+input[type="reset"] {
   display: block;
-  outline: 0;
-  border: 0;
+  outline: none;
   cursor: pointer;
-  font-weight: 600;
-  color: #fff;
   font-size: 14px;
-  height: 38px;
-  padding: 8px 24px;
-  border-radius: 50px;
-  background-image: linear-gradient(180deg, #7c8aff, #3c4fe0);
-  box-shadow: 0 4px 11px 0 rgb(37 44 97 / 15%),
-    0 1px 3px 0 rgb(93 100 148 / 20%);
-  transition: all 0.2s ease-out;
+  padding: 0 12px;
+  line-height: 20px;
+  height: 30px;
+  max-height: 30px;
+  background: #fff;
+  font-weight: 700;
+  border: 2px solid #dae3f3;
+  border-radius: 0;
+  color: #272c34;
+  transition-timing-function: ease-in-out;
+  transition-property: box-shadow;
+  transition-duration: 150ms;
   :hover {
-    box-shadow: 0 8px 22px 0 rgb(37 44 97 / 15%),
-      0 4px 6px 0 rgb(93 100 148 / 20%);
+    box-shadow: 0 2px 2px rgb(39 44 52 / 12%);
   }
 }
