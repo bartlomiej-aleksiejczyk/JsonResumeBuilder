@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html
-  th:fragment="layout (title, content)"
+  th:fragment="layout (content)"
   th:with="extraJs=${extraJs} ? ${extraJs} : ~{},
-   extraCss=${extraCss} ? ${extraCss} : ~{},
-    extraText=${extraText} ? ${extraText} : 'no extra text',
+    extraCss=${extraCss} ? ${extraCss} : ~{},
+    title=${title} ? ${title} : 'JSON Resume Builer',
+    extraText=${extraText} ? ${extraText} : 'JSON Resume Builer',
     topbarHeaderText=${topbarHeaderText} ? ${topbarHeaderText} : 'Default Header Hero'"
   xmlns:th="http://www.thymeleaf.org"
   lang="en"
