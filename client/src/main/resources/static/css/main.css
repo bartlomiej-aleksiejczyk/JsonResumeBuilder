@@ -35,6 +35,25 @@ img {
   height: auto;
 }
 
+button {
+  display: block;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  font-weight: 600;
+  color: #fff;
+  font-size: 14px;
+  height: 38px;
+  padding: 8px 24px;
+  border-radius: 50px;
+  background-image: linear-gradient(180deg, #7c8aff, #3c4fe0);
+  box-shadow: 0 4px 11px 0 rgba(37, 44, 97, 0.15), 0 1px 3px 0 rgba(93, 100, 148, 0.2);
+  transition: all 0.2s ease-out;
+}
+button :hover {
+  box-shadow: 0 8px 22px 0 rgba(37, 44, 97, 0.15), 0 4px 6px 0 rgba(93, 100, 148, 0.2);
+}
+
 body {
   font-family: "Source Code Pro", monospace;
   background-color: #2f2f2f;
@@ -43,20 +62,18 @@ body {
   margin: 0;
 }
 
-/* Target all 'a' elements that are not inside 'nav' or 'footer' */
 a {
-  color: #007bff; /* A readable, standard link color */
-  text-decoration: underline; /* Underlining to indicate clickability */
-  background-color: transparent; /* No background color by default */
-  transition: color 0.3s ease; /* Smooth transition for hover effects */
+  color: #007bff;
+  text-decoration: underline;
+  background-color: transparent;
+  transition: color 0.3s ease;
 }
 
-/* Hover and focus states for those links */
 a:hover,
 a:focus {
-  color: #0056b3; /* Darker blue for better visibility on hover/focus */
-  text-decoration: none; /* Remove the underline on hover/focus for a cleaner look */
-  background-color: #e8f4ff; /* Light background on hover/focus for emphasis */
+  color: #0056b3;
+  text-decoration: none;
+  background-color: #e8f4ff;
 }
 
 .back-link {
