@@ -1,0 +1,34 @@
+.navigation-topbar {
+  background: #333;
+  padding: 1rem 0;
+  text-align: center;
+
+  &__link {
+    color: #959ca0;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    margin: 0 1rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    position: relative;
+
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      color: #ffffff;
+      outline: none;
+
+      &::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 2px;
+        background-color: #ffffff;
+        position: absolute;
+        bottom: -6px;
+        left: 0;
+      }
+    }
+  }
+}

@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html
+  th:replace="~{layout/default-layout :: layout(content = ~{::content})}"
+  xmlns:th="http://www.thymeleaf.org"
+  lang="en"
+>
   <head>
     <meta charset="UTF-8" />
     <title>JSON Content</title>

@@ -1,7 +1,6 @@
 // Importing base styles
 @use "base/reset";
 @use "base/base";
-@use "base/navigation";
 
 // Importing component styles
 @use "components/back-link";
@@ -9,3 +8,4 @@
 @use "components/hero";
 @use "components/page";
 @use "components/footer";
+@use "components/navigation-topbar";

@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html
+  th:replace="~{layout/default-layout :: layout(content = ~{::content})}"
+  xmlns:th="http://www.thymeleaf.org"
+  lang="en"
+>
   <head>
     <meta charset="UTF-8" />
     <title>Publish a Job</title>
@@ -10,16 +14,15 @@
       <p>Job successfully published!</p>
     </div>
 
-    <form
-      action="#"
-      th:action="@{/jobs}"
-      th:object="${job}"
-      method="post"
-    >
+    <form action="#" th:action="@{/jobs}" th:object="${job}" method="post">
       <label for="template">Template Name:</label>
       <select id="template" th:field="*{templateId}">
         <option value="" selected>Choose...</option>
-        <option th:each="template : ${templates}" th:value="${template.id}" th:text="${template.templateName}"></option>
+        <option
+          th:each="template : ${templates}"
+          th:value="${template.id}"
+          th:text="${template.templateName}"
+        ></option>
       </select>
       <br /><br />
 

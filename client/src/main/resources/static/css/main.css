@@ -1,6 +1,7 @@
 html {
   box-sizing: border-box;
   font-size: 16px;
+  height: 100%;
 }
 
 *,
@@ -42,51 +43,20 @@ body {
   margin: 0;
 }
 
-nav {
-  background: #333;
-  padding: 1rem 0;
-  text-align: center;
+/* Target all 'a' elements that are not inside 'nav' or 'footer' */
+a {
+  color: #007bff; /* A readable, standard link color */
+  text-decoration: underline; /* Underlining to indicate clickability */
+  background-color: transparent; /* No background color by default */
+  transition: color 0.3s ease; /* Smooth transition for hover effects */
 }
 
-nav a {
-  color: #959ca0;
-  padding: 0.5rem 1rem;
-  text-decoration: none;
-  margin: 0 1rem;
-  font-weight: 400;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-nav a:hover,
-nav a:focus {
-  background-color: transparent;
-  color: #ffffff;
-  outline: none;
-}
-
-nav a:hover::after,
-nav a:focus::after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 2px;
-  background-color: #ffffff;
-  position: absolute;
-  bottom: -6px;
-  left: 0;
-}
-
-footer {
-  background: #2f2f2f;
-  color: #cfcfcf;
-  text-align: center;
-  padding: 2rem 0;
-  position: relative;
-  left: 0;
-  bottom: 0;
-  width: 100%;
+/* Hover and focus states for those links */
+a:hover,
+a:focus {
+  color: #0056b3; /* Darker blue for better visibility on hover/focus */
+  text-decoration: none; /* Remove the underline on hover/focus for a cleaner look */
+  background-color: #e8f4ff; /* Light background on hover/focus for emphasis */
 }
 
 .back-link {
@@ -131,6 +101,58 @@ footer {
   font-size: 1em;
   max-width: 20rem;
   margin: 0 auto 2rem;
+}
+
+.page {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.page__content {
+  flex: 1;
+  padding-bottom: 1rem;
+}
+
+.footer {
+  background: #2f2f2f;
+  color: #cfcfcf;
+  text-align: center;
+  padding: 2rem 0;
+  width: 100%;
+  margin-top: auto;
+}
+
+.navigation-topbar {
+  background: #333;
+  padding: 1rem 0;
+  text-align: center;
+}
+.navigation-topbar__link {
+  color: #959ca0;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  margin: 0 1rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.navigation-topbar__link:hover, .navigation-topbar__link:focus {
+  background-color: transparent;
+  color: #ffffff;
+  outline: none;
+}
+.navigation-topbar__link:hover::after, .navigation-topbar__link:focus::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #ffffff;
+  position: absolute;
+  bottom: -6px;
+  left: 0;
 }
 
 /*# sourceMappingURL=main.css.map */

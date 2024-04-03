@@ -1,0 +1,17 @@
+.link {
+  color: #959ca0;
+  padding: 0.8rem 1.2rem;
+  text-decoration: none;
+  margin: 0.5rem 0;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+
+  &:hover,
+  &:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    text-decoration: underline;
+  }
+}
