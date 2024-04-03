@@ -9,8 +9,10 @@
     <title>JSON Content</title>
   </head>
   <body>
-    <h2>JSON Content for Job ID: <span th:text="${jobId}"></span></h2>
+    <div th:fragment="content">
+      <h2>JSON Content for Job ID: <span th:text="${jobId}"></span></h2>
 
-    <pre th:text="${jsonContent}"></pre>
+      <pre th:text="${jsonContent}"></pre>
+    </div>
   </body>
 </html>

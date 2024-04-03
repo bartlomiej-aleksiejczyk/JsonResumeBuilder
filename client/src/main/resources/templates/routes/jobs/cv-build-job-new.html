@@ -9,33 +9,35 @@
     <title>Publish a Job</title>
   </head>
   <body>
-    <h1>Publish a Job</h1>
-    <div th:if="${param.success}">
-      <p>Job successfully published!</p>
+    <div th:fragment="content">
+      <h1>Publish a Job</h1>
+      <div th:if="${param.success}">
+        <p>Job successfully published!</p>
+      </div>
+
+      <form action="#" th:action="@{/jobs}" th:object="${job}" method="post">
+        <label for="template">Template Name:</label>
+        <select id="template" th:field="*{templateId}">
+          <option value="" selected>Choose...</option>
+          <option
+            th:each="template : ${templates}"
+            th:value="${template.id}"
+            th:text="${template.templateName}"
+          ></option>
+        </select>
+        <br /><br />
+
+        <label for="jsonContent">JSON Content:</label>
+        <textarea
+          id="jsonContent"
+          th:field="*{jsonContent}"
+          rows="5"
+          cols="33"
+        ></textarea
+        ><br /><br />
+
+        <button type="submit">Publish Job</button>
+      </form>
     </div>
-
-    <form action="#" th:action="@{/jobs}" th:object="${job}" method="post">
-      <label for="template">Template Name:</label>
-      <select id="template" th:field="*{templateId}">
-        <option value="" selected>Choose...</option>
-        <option
-          th:each="template : ${templates}"
-          th:value="${template.id}"
-          th:text="${template.templateName}"
-        ></option>
-      </select>
-      <br /><br />
-
-      <label for="jsonContent">JSON Content:</label>
-      <textarea
-        id="jsonContent"
-        th:field="*{jsonContent}"
-        rows="5"
-        cols="33"
-      ></textarea
-      ><br /><br />
-
-      <button type="submit">Publish Job</button>
-    </form>
   </body>
 </html>

@@ -8,24 +8,26 @@
     <title>Create New LaTeX Template</title>
   </head>
   <body>
-    <h2>Create New LaTeX Template</h2>
-    <form th:action="@{/templates}" method="post">
-      <label for="name">Name:</label>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        placeholder="Enter template name"
-      />
-      <br />
-      <label for="content">Content:</label>
-      <textarea
-        id="content"
-        name="content"
-        placeholder="Enter template content"
-      ></textarea>
-      <br />
-      <input type="submit" value="Create" />
-    </form>
+    <div th:fragment="content">
+      <h2>Create New LaTeX Template</h2>
+      <form th:action="@{/templates}" method="post">
+        <label for="name">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Enter template name"
+        />
+        <br />
+        <label for="content">Content:</label>
+        <textarea
+          id="content"
+          name="content"
+          placeholder="Enter template content"
+        ></textarea>
+        <br />
+        <input type="submit" value="Create" />
+      </form>
+    </div>
   </body>
 </html>
