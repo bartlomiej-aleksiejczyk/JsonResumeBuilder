@@ -2,10 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
   <body>
     <nav th:fragment="topbar-navigation" class="navigation-topbar">
-      <a th:href="@{/templates}">List Templates</a>
-      <a th:href="@{/templates/new}">New Template</a>
-      <a th:href="@{/jobs}">List Jobs</a>
-      <a th:href="@{/jobs/new}">New Job</a>
+      <a th:href="@{/templates}" class="navigation-topbar__link">
+        List Templates</a
+      >
+      <a th:href="@{/templates/new}" class="navigation-topbar__link">
+        New Template
+      </a>
+      <a th:href="@{/jobs}" class="navigation-topbar__link"> List Jobs </a>
+      <a th:href="@{/jobs/new}" class="navigation-topbar__link"> New Job </a>
     </nav>
   </body>
 </html>
