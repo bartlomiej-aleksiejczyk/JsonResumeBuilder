@@ -1,93 +1,75 @@
-.editor-container {
-    height: inherit;
-    border: 1px solid #ccc;
-}
-
-.error-message {
-    color: red;
-    margin-top: 10px;
-}
-
-.resizer {
-    bottom: 0;
-    right: 0;
-    display: block;
-    width: 100%;
-    height: 20px;
-    background-color: #b6b6b6;
-    cursor: ns-resize;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.resizer::before {
-    content: '';
-    display: block;
-    width: 50%;
-    height: 5px;
-    background-color: #ccc; // Color of lines
-    border-radius: 20px; // Optional: adds rounded corners to the lines
-}
-
 .editor-wrapper {
-    position: relative;
-    width: 400px;
-    height: 300px;
-    padding-bottom: 73px;
-    border: solid 2px gray;
-    border-radius: 2px;
+  position: relative;
+  width: 400px;
+  height: 300px;
+  border: solid 2px gray;
+  border-radius: 2px;
+  display: flex;
 }
 
+.lines-container {
+  flex-shrink: 0;
+  overflow: hidden;
+  background-color: #eee; /* Line numbers background */
+  padding-right: 10px; /* Spacing between line numbers and the text area */
+}
+
+.line-numbers {
+  margin: 0; /* Remove default margin */
+  padding-top: 1px; /* Adjust based on your textarea's font */
+  color: #999; /* Line numbers color */
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.editor-container {
+  width: 100%;
+  height: calc(100% - 30px);
+  border: none;
+  resize: none; /* Disable resizing to keep the layout consistent */
+  font-family: monospace;
+  overflow-y: hidden; /* Hide vertical scrollbar */
+}
+
+/* Rest of the CSS remains the same */
+
 .editor-controls {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px;
-    height: 30px;
-    background-color: #f0f0f0; // Or any other color
-    border-top: 1px solid #ccc; // Gives a panel-like separator
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-top: 1px solid #ccc;
+}
 
-    button {
-        background-color: #818181; // Dark button background
-        color: #ddd; 
-        border: 1px solid #666;
-        padding: 5px 10px;
-        margin: 0 5px;
-        border-radius: 4px; // Optional: rounded corners for buttons
-        cursor: pointer; // Cursor to pointer to indicate clickable
+button {
+  background-color: #818181;
+  color: #ddd;
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
-        &:hover {
-            background-color: #555; // Slightly lighter on hover for feedback
-        }
+button:hover {
+  background-color: #555;
+}
 
-        &:disabled {
-            background-color: #333; // Darker background for disabled state
-            color: #666; // Dimmed text color for disabled state
-            cursor: not-allowed; // Cursor change to indicate non-interactive
-        }
+button:disabled {
+  background-color: #333;
+  color: #666;
+  cursor: not-allowed;
+}
 
-    }
+.success-message {
+  color: green;
+  margin-right: auto; /* Moves the message to the left */
 }
 
 .error-message {
-    color: red;
-    margin-left: 20px;
-}
-
-.editor-controls {
-    display: flex;
-    align-items: center; // Align buttons and messages vertically
-
-    .success-message {
-        color: green; // Or any color that represents success
-        margin-left: 10px; // Adjust spacing as needed
-    }
-
-    .error-message {
-        color: red; // Or any color that indicates an error
-        margin-left: 10px; // Adjust spacing as needed
-    }
+  color: red;
+  margin-right: auto;
 }

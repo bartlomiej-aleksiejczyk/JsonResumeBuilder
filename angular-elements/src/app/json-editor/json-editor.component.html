@@ -1,19 +1,20 @@
-<div class="editor-wrapper" #editorWrapper>
-  <div class="editor-container" #editorContainer></div>
+<div class="editor-wrapper">
+  <div class="lines-container">
+    <pre class="line-numbers" #lineNumbers>#</pre>
+  </div>
+  <textarea
+    #jsonInput
+    class="editor-container"
+    (input)="updateLineNumbers(); validateJson()"
+    (scroll)="syncScroll()"
+    (keydown)="handleKeydown($event)"
+  ></textarea>
   <div class="editor-controls">
     <span *ngIf="successMessage" class="success-message">{{
       successMessage
     }}</span>
     <span *ngIf="errorMessage" class="error-message">{{ errorMessage }}</span>
-    <button (click)="validateJson()" [disabled]="_isReadonly">
-      Validate JSON
-    </button>
-    <button
-      (click)="sendJson()"
-      [disabled]="_isReadonly || errorMessage || !editor?.getValue()?.trim()"
-    >
-      Send JSON
-    </button>
+    <button (click)="validateJson()">Validate JSON</button>
+    <button (click)="sendJson()" [disabled]="errorMessage">Send JSON</button>
   </div>
-  <div class="resizer" (mousedown)="startResize($event)"></div>
 </div>

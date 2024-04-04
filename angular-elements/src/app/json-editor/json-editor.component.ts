@@ -20,21 +20,20 @@ import { JsonEditorService } from '../json-editor-service.service';
   styleUrls: ['./json-editor.component.scss'],
 })
 export class JsonEditorComponent implements AfterViewInit {
-  @Input() url: string = ''; // Default empty string
-  @Input() jsonData: string = '{}'; // Default empty object as string
-  @Input() isReadonly: string = 'false'; // Default to false
+  @Input() url: string = '';
+  @Input() jsonData: string = '{}';
+  @Input() isReadonly: string = 'false';
 
   errorMessage: string = '';
-  editor: monaco.editor.IStandaloneCodeEditor | undefined;
-  isResizing: boolean = false;
   successMessage: string = '';
   protected _isReadonly: boolean = false;
-  private _parsedJsonData: any; // Use any or a specific interface
+  private _parsedJsonData: any;
 
   constructor(private jsonEditorService: JsonEditorService) {}
 
-  @ViewChild('editorContainer') editorContainer!: ElementRef;
-  @ViewChild('editorWrapper') editorWrapper!: ElementRef;
+  @ViewChild('jsonInput') jsonInput!: ElementRef;
+  @ViewChild('lineNumbers', { static: true })
+  lineNumbers!: ElementRef<HTMLElement>;
 
   ngAfterViewInit(): void {
     this._isReadonly = this.isReadonly === 'true';
@@ -43,64 +42,27 @@ export class JsonEditorComponent implements AfterViewInit {
       this._parsedJsonData = JSON.parse(this.jsonData);
     } catch (error) {
       console.error('Error parsing jsonData input:', error);
-      this._parsedJsonData = {}; // Keep it as an object here
+      this._parsedJsonData = {};
     }
-    this.initMonaco();
-  }
-
-  private initMonaco(): void {
-    this.editor = monaco.editor.create(this.editorContainer.nativeElement, {
-      value: JSON.stringify(this._parsedJsonData, null, 2),
-      readOnly: this._isReadonly, // Use the parsed boolean value
-      automaticLayout: true,
-    });
-  }
-
-  startResize(event: MouseEvent): void {
-    this.isResizing = true;
-  }
-
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(event: MouseEvent) {
-    if (!this.isResizing) {
-      return;
-    }
-    const editorWrapperRect =
-      this.editorWrapper.nativeElement.getBoundingClientRect();
-    const newHeight = event.clientY - editorWrapperRect.top;
-
-    const minHeight = 100;
-    this.editorWrapper.nativeElement.style.height = `${Math.max(
-      newHeight,
-      minHeight
-    )}px`;
-    this.editor?.layout();
-  }
-
-  @HostListener('document:mouseup', ['$event'])
-  onMouseUp(event: MouseEvent) {
-    if (this.isResizing) {
-      this.isResizing = false;
-    }
+    this.updateLineNumbers();
   }
 
   validateJson(): void {
-    if (this.editor) {
-      try {
-        const json = JSON.parse(this.editor.getValue());
-        this.jsonData = json;
-        this.errorMessage = '';
-        this.successMessage = 'JSON is valid';
-      } catch (e) {
-        this.errorMessage = 'Invalid JSON';
-        this.successMessage = '';
-      }
+    const input = this.jsonInput.nativeElement.value;
+    try {
+      JSON.parse(input);
+      this.successMessage = 'Valid JSON';
+      this.errorMessage = '';
+    } catch (e) {
+      this.successMessage = '';
+      this.errorMessage = 'Invalid JSON';
     }
   }
+
   sendJson(): void {
-    if (this.editor && this.url) {
+    if (this.jsonInput && this.url) {
       try {
-        const json = JSON.parse(this.editor.getValue());
+        const json = JSON.parse(this.jsonInput.nativeElement.value);
         this.jsonEditorService.sendJson(json, this.url).subscribe({
           next: (response: unknown) => {
             console.log('JSON sent successfully', response);
@@ -120,6 +82,71 @@ export class JsonEditorComponent implements AfterViewInit {
     } else {
       this.errorMessage = 'URL not provided';
       this.successMessage = '';
+    }
+  }
+  updateLineNumbers(): void {
+    const lines = this.jsonInput.nativeElement.value.split('\n').length;
+    this.lineNumbers.nativeElement.innerText =
+      Array.from({ length: lines }, (v, k) => k + 1).join('\n') + '\n#';
+  }
+
+  syncScroll(): void {
+    const scroll = this.jsonInput.nativeElement.scrollTop;
+    this.lineNumbers.nativeElement.scrollTop = scroll;
+  }
+
+  handleKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+
+      const textarea = this.jsonInput.nativeElement;
+      const value = textarea.value;
+      const selectionStart = textarea.selectionStart;
+
+      let indent = '';
+      let newLineIndent = '';
+      let postCursorText = '';
+      let decreaseIndent = false;
+
+      const lines = value.substring(0, selectionStart).split('\n');
+      if (lines.length > 0) {
+        const lastLine = lines[lines.length - 1];
+        indent = lastLine.match(/^\s*/)[0];
+      }
+
+      const precedingChar = value.substring(0, selectionStart).trim().slice(-1);
+      if (['{', '['].includes(precedingChar)) {
+        newLineIndent = indent + '  ';
+      } else if (['}', ']'].includes(precedingChar)) {
+        if (indent.length >= 2) {
+          newLineIndent = indent.substring(0, indent.length - 2);
+          decreaseIndent = true;
+        } else {
+          newLineIndent = '';
+        }
+      } else {
+        newLineIndent = indent;
+      }
+
+      if (selectionStart < value.length) {
+        postCursorText = value.substring(textarea.selectionEnd);
+      }
+
+      let insertText = '\n' + newLineIndent;
+      if (decreaseIndent && ['}', ']'].includes(precedingChar)) {
+        insertText = '\n' + newLineIndent + '\n' + indent;
+      }
+
+      textarea.value =
+        value.substring(0, selectionStart) + insertText + postCursorText;
+      let newPosition = selectionStart + newLineIndent.length + 1;
+      if (decreaseIndent && ['}', ']'].includes(precedingChar)) {
+        newPosition += newLineIndent.length + 1;
+      }
+
+      textarea.selectionStart = textarea.selectionEnd = newPosition;
+
+      this.updateLineNumbers();
     }
   }
 }
