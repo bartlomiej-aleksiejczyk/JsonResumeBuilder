@@ -4,6 +4,7 @@ import { AppComponent } from './app/app.component';
 import { createCustomElement } from '@angular/elements';
 import { createApplication } from '@angular/platform-browser';
 import { JsonEditorComponent } from './app/json-editor/json-editor.component';
+import { JsonRendererComponent } from './app/json-renderer/json-renderer.component';
 
 // bootstrapApplication(AppComponent, appConfig).catch((err) =>
 //   console.error(err)
@@ -17,9 +18,9 @@ import { JsonEditorComponent } from './app/json-editor/json-editor.component';
 (async () => {
   const app = createApplication(appConfig);
 
-  const customCardElement = createCustomElement(JsonEditorComponent, {
+  const customCardElement = createCustomElement(JsonRendererComponent, {
     injector: (await app).injector,
   });
 
-  customElements.define('json-editor-element', customCardElement);
+  customElements.define('json-displayer', customCardElement);
 })();

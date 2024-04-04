@@ -1,47 +1,51 @@
 .editor-wrapper {
+  display: flex;
   position: relative;
   width: 400px;
   height: 300px;
   border: solid 2px gray;
   border-radius: 2px;
-  display: flex;
+  overflow: hidden; /* Ensure the overflow is contained */
 }
 
 .lines-container {
-  flex-shrink: 0;
-  overflow: hidden;
-  background-color: #eee; /* Line numbers background */
-  padding-right: 10px; /* Spacing between line numbers and the text area */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Hide overflow */
+  background-color: #eee;
+  padding-right: 10px; /* Adjust spacing */
 }
 
 .line-numbers {
-  margin: 0; /* Remove default margin */
-  padding-top: 1px; /* Adjust based on your textarea's font */
-  color: #999; /* Line numbers color */
+  margin: 0;
+  padding-top: 1px; /* Adjust for alignment */
+  color: #999;
   font-family: monospace;
-  white-space: pre-wrap;
-  word-wrap: break-word;
+  font-size: 14px; /* Ensure this matches the editor font size */
+  line-height: normal; /* Adjust line height for alignment */
+  white-space: pre; /* Prevent wrapping */
 }
 
 .editor-container {
-  width: 100%;
-  height: calc(100% - 30px);
+  flex-grow: 1;
   border: none;
-  resize: none; /* Disable resizing to keep the layout consistent */
+  resize: none;
   font-family: monospace;
-  overflow-y: hidden; /* Hide vertical scrollbar */
+  font-size: 14px; /* Match line number font size */
+  line-height: normal; /* Match line height with line numbers */
+  overflow-y: scroll; /* Allow vertical scrolling */
 }
 
-/* Rest of the CSS remains the same */
-
 .editor-controls {
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
+  position: absolute;
+  bottom: 0;
+  right: 0;
   display: flex;
   justify-content: flex-end;
   padding: 10px;
   background-color: #f0f0f0;
   border-top: 1px solid #ccc;
+  width: calc(100% - 2px); /* Adjust width to fit inside the border */
 }
 
 button {

@@ -9,12 +9,13 @@
     (scroll)="syncScroll()"
     (keydown)="handleKeydown($event)"
   ></textarea>
-  <div class="editor-controls">
-    <span *ngIf="successMessage" class="success-message">{{
-      successMessage
-    }}</span>
-    <span *ngIf="errorMessage" class="error-message">{{ errorMessage }}</span>
-    <button (click)="validateJson()">Validate JSON</button>
-    <button (click)="sendJson()" [disabled]="errorMessage">Send JSON</button>
-  </div>
+</div>
+
+<div class="editor-controls">
+  <span *ngIf="successMessage" class="success-message">{{
+    successMessage
+  }}</span>
+  <span *ngIf="errorMessage" class="error-message">{{ errorMessage }}</span>
+  <button (click)="validateJson()">Validate JSON</button>
+  <button (click)="sendJson()" [disabled]="errorMessage">Send JSON</button>
 </div>

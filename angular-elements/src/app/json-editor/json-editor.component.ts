@@ -32,8 +32,7 @@ export class JsonEditorComponent implements AfterViewInit {
   constructor(private jsonEditorService: JsonEditorService) {}
 
   @ViewChild('jsonInput') jsonInput!: ElementRef;
-  @ViewChild('lineNumbers', { static: true })
-  lineNumbers!: ElementRef<HTMLElement>;
+  @ViewChild('lineNumbers') lineNumbers!: ElementRef<HTMLElement>;
 
   ngAfterViewInit(): void {
     this._isReadonly = this.isReadonly === 'true';
@@ -45,6 +44,9 @@ export class JsonEditorComponent implements AfterViewInit {
       this._parsedJsonData = {};
     }
     this.updateLineNumbers();
+    this.jsonInput.nativeElement.addEventListener('scroll', () => {
+      this.syncScroll();
+    });
   }
 
   validateJson(): void {
@@ -91,8 +93,10 @@ export class JsonEditorComponent implements AfterViewInit {
   }
 
   syncScroll(): void {
-    const scroll = this.jsonInput.nativeElement.scrollTop;
-    this.lineNumbers.nativeElement.scrollTop = scroll;
+    if (this.lineNumbers && this.jsonInput) {
+      const scrollTop = this.jsonInput.nativeElement.scrollTop;
+      this.lineNumbers.nativeElement.scrollTop = scrollTop;
+    }
   }
 
   handleKeydown(event: KeyboardEvent): void {

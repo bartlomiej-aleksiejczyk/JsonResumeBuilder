@@ -1,0 +1,28 @@
+.formatted-json {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background-color: #f4f4f4;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-family: "Courier New", Courier, monospace;
+  color: #333;
+}
+.key {
+  color: #a52a2a;
+}
+.string {
+  color: #008000;
+}
+.number {
+  color: #0000ff;
+}
+.boolean {
+  color: #ff00ff;
+}
+.null {
+  color: #ff4500;
+}
+.error {
+  color: #ff0000;
+}
