@@ -1,31 +1,13 @@
 .formatted-json {
   white-space: pre-wrap;
   word-wrap: break-word;
-  background-color: #f4f4f4;
+  background-color: #1e1e1e;
   padding: 15px;
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid #555;
   font-family: "Courier New", Courier, monospace;
-  color: #333;
+  color: #c9d1d9;
   overflow: scroll;
   max-height: 20rem;
-  width: 90%;
-}
-.key {
-  color: #a52a2a;
-}
-.string {
-  color: #008000;
-}
-.number {
-  color: #0000ff;
-}
-.boolean {
-  color: #ff00ff;
-}
-.null {
-  color: #ff4500;
-}
-.error {
-  color: #ff0000;
+  width: 100%;
 }

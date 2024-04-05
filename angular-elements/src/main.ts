@@ -1,9 +1,8 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
-import { AppComponent } from './app/app.component';
+//import { AppComponent } from './app/app.component';
 import { createCustomElement } from '@angular/elements';
 import { createApplication } from '@angular/platform-browser';
-import { JsonEditorComponent } from './app/json-editor/json-editor.component';
 import { JsonRendererComponent } from './app/json-renderer/json-renderer.component';
 
 // bootstrapApplication(AppComponent, appConfig).catch((err) =>

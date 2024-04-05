@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { SafeHtmlPipe } from '../safe-html.pipe';
 
 @Component({
   selector: 'app-json-renderer',
   standalone: true,
-  imports: [CommonModule, SafeHtmlPipe],
+  imports: [CommonModule],
   templateUrl: './json-renderer.component.html',
   styleUrls: ['./json-renderer.component.scss'],
 })
