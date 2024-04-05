@@ -1,28 +1,83 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/default-layout :: layout(title = 'Apps Page Title', content = ~{::content}, extraCss=~{::extraCss})}"
-      lang="en">
-      <head>
-    <meta charset="UTF-8">
-    <title>Job Details</title> 
-</head>
-<body>
+<html
+  th:replace="~{layout/default-layout :: layout(title='Apps Page Title', content=~{::content}, extraCss=~{::extraCss}, extraJs=~{::extraJs})}"
+  lang="en"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Job Details</title>
+    <script src="polyfills-RT5I6R6G.js" type="module"></script>
+    <script src="main-GD7TJT6L.js" type="module"></script>
+    <link
+      rel="stylesheet"
+      href="styles-WWUFT7N6.css"
+      media="print"
+      onload="this.media='all'"
+    />
+    <th:block th:fragment="extraCss">
+      <link
+        th:href="@{/web-components/angular-elements/styles.css}"
+        rel="stylesheet"
+        media="print"
+        onload="this.media='all'"
+      />
+      <noscript
+        ><link
+          th:href="@{/web-components/angular-elements/styles.css}"
+          rel="stylesheet"
+      /></noscript>
+    </th:block>
+  </head>
+  <body>
     <div th:fragment="content">
-            <h1>Job Details</h1>
-            <div>
-                <h2>Job ID: <span th:text="${job.id}"></span></h2>
-                <p>Status: <span th:text="${job.status}"></span></p>
-                <p>Template Name: <span th:text="${job.template.templateName}"></span></p>
-                <div th:if="${job.template.deleted}">
-                    <strong>Note: The original template was deleted or removed. This is not the actual template but a previous version.</strong>
-                </div>
-                <p>JSON Content: <pre th:text="${job.jsonContent}"></pre></p>
-                <p>Created At: <span th:text="${#temporals.format(job.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
-                <div th:if="!${job.template.deleted}">
-                    <a th:href="@{/templates/{id} (id=${job.template.id})}">View Associated Template</a>
-                </div>
-                <a class="link" th:href="@{/{id}/compilation-result (id=${job.id})}" th:if="${job.cvCompilationResult}">Download Compiled File</a>
-            </div>
-            <a href="/jobs" class="back-link">Back to list</a>
+      <h1>Job Details</h1>
+      <div>
+        <h2>Job ID: <span th:text="${job.id}"></span></h2>
+        <p>Status: <span th:text="${job.status}"></span></p>
+        <p>
+          Template Name: <span th:text="${job.template.templateName}"></span>
+        </p>
+        <div th:if="${job.template.deleted}">
+          <strong
+            >Note: The original template was deleted or removed. This is not the
+            actual template but a previous version.</strong
+          >
+        </div>
+        <p>
+          JSON Content:
+          <json-displayer
+            th:attr="json-data=${job.jsonContent}"
+          ></json-displayer>
+        </p>
+        <p>
+          Created At:
+          <span
+            th:text="${#temporals.format(job.createdAt, 'yyyy-MM-dd HH:mm')}"
+          ></span>
+        </p>
+        <div th:if="!${job.template.deleted}">
+          <a th:href="@{/templates/{id} (id=${job.template.id})}"
+            >View Associated Template</a
+          >
+        </div>
+        <a
+          class="link"
+          th:href="@{/{id}/compilation-result (id=${job.id})}"
+          th:if="${job.cvCompilationResult}"
+          >Download Compiled File</a
+        >
+      </div>
+      <a href="/jobs" class="back-link">Back to list</a>
     </div>
-</body>
+    <th:block th:fragment="extraJs">
+      <script
+        th:src="@{/web-components/angular-elements/polyfills.js}"
+        type="module"
+      ></script>
+      <script
+        th:src="@{/web-components/angular-elements/main.js}"
+        type="module"
+      ></script>
+    </th:block>
+  </body>
 </html>
