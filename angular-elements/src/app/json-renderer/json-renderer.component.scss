@@ -7,6 +7,9 @@
   border: 1px solid #ddd;
   font-family: "Courier New", Courier, monospace;
   color: #333;
+  overflow: scroll;
+  max-height: 20rem;
+  width: 90%;
 }
 .key {
   color: #a52a2a;

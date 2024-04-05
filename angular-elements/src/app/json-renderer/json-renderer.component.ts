@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { SafeHtmlPipe } from '../safe-html.pipe';
 
 @Component({
   selector: 'app-json-renderer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SafeHtmlPipe],
   templateUrl: './json-renderer.component.html',
-  styleUrl: './json-renderer.component.scss',
+  styleUrls: ['./json-renderer.component.scss'],
 })
 export class JsonRendererComponent implements OnInit {
   @Input() jsonData: string = '{}';
@@ -21,7 +22,6 @@ export class JsonRendererComponent implements OnInit {
 
   renderJson(): void {
     try {
-      // Parse the input JSON to format it
       const obj = JSON.parse(this.jsonData);
       this.formattedJson = JSON.stringify(obj, null, 2);
     } catch (error) {

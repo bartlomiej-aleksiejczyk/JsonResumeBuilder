@@ -1,2 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 @import "highlight.js/styles/tomorrow-night-blue.css";
+.key {
+  color: #a52a2a;
+}
+.string {
+  color: #008000;
+}
+.number {
+  color: #0000ff;
+}
+.boolean {
+  color: #ff00ff;
+}
+.null {
+  color: #ff4500;
+}
+.error {
+  color: #ff0000;
+}
