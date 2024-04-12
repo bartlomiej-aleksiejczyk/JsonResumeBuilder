@@ -72,7 +72,7 @@ def process_message_and_compile_latex(self, message):
 
     files = {
         'statusUpdate': ('', status_update, 'application/json'),
-        'file': (output_pdf_filename, open(output_pdf_filename, 'rb'), 'application/pdf')
+        'compiledCvFile': (output_pdf_filename, open(output_pdf_filename, 'rb'), 'application/pdf')
     }
 
     try:
