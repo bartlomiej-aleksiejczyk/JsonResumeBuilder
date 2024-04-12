@@ -24,6 +24,7 @@ public class CvBuildRestController {
 
         CvBuildJob updatedJob;
         if (compiledCvFile != null && !compiledCvFile.isEmpty()) {
+            System.out.println(compiledCvFile.getName());
             updatedJob = cvBuildJobService.updateBuildJobStatus(id, statusUpdate.getStatus(), compiledCvFile);
         } else {
             updatedJob = cvBuildJobService.updateBuildJobStatus(id, statusUpdate.getStatus(), null);
