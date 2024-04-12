@@ -26,7 +26,7 @@ To start the Resume Builder application using Docker Compose, follow these steps
 2. **Start the Services**: Execute the following command to start all the services defined in the `docker-compose-dev.yml` file. This includes your application, as well as any databases or message brokers you've defined as services:
 
    ```bash
-   docker-compose -f docker-compose-dev.yml up --build
+   docker compose -f docker-compose-dev.yml up --build
    ```
 
 3. **Access the Application**: Once the containers are up and running, you can access the Resume Builder application by opening your web browser and navigating to:
