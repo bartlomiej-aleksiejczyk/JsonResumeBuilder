@@ -28,7 +28,7 @@ services:
     environment:
       - CELERY_BROKER_URL=amqp://rabbitmq_user:rabbitmq_password@rabbitmq:5672//
       - SCHEDULER_API_URL=http://springboot-server:8080/scheduler
-      - QUEUE_EXCHANGE=my_exchange
+      - QUEUE_EXCHANGE=springboot-resume-builder
       - QUEUE_ROUTING_KEY=my_routing_key
       - QUEUE_NAME=my_queue
       - QUEUE_CELERY_TASK_BUILD_CV=my_task
@@ -55,7 +55,7 @@ services:
       - RABBITMQ_PORT=5672
       - RABBITMQ_USER=rabbitmq_user
       - RABBITMQ_PASSWORD=rabbitmq_password
-      - QUEUE_EXCHANGE=my_exchange
+      - QUEUE_EXCHANGE=springboot-resume-builder
       - QUEUE_ROUTING_KEY=my_routing_key
       - QUEUE_CELERY_TASK_BUILD_CV=my_task
       - IMAGE_NAME=springboot-resume-builder
