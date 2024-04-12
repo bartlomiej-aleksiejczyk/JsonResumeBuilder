@@ -11,7 +11,9 @@
     <div th:fragment="content">
       <h2>LaTeX Templates</h2>
       <div>
-        <a th:href="@{/templates/new}">Create New Template</a>
+        <a class="button-link" th:href="@{/templates/new}"
+          >Create New Template</a
+        >
       </div>
       <table>
         <thead>
@@ -28,7 +30,11 @@
             <td th:text="${template.templateName}">Template Name</td>
             <td th:text="${template.templateContent}">Template Content</td>
             <td>
-              <a th:href="@{/templates/{id}/edit(id=${template.id})}">Edit</a>
+              <a
+                class="button-link"
+                th:href="@{/templates/{id}/edit(id=${template.id})}"
+                >Edit</a
+              >
               <form
                 th:action="@{/templates/{id}/delete(id=${template.id})}"
                 method="post"
