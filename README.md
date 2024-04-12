@@ -13,8 +13,8 @@ This application generates resumes from JSON data and Jinja2-to-LaTeX templates,
 1. Clone the repository to your local machine:
 
 ```bash
-git clone https://your-repository-url.git
-cd your-repository-directory
+git clone https://github.com/bartlomiej-aleksiejczyk/JsonResumeBuilder.git
+cd JsonResumeBuilder
 ```
 
 ### Running the Application
