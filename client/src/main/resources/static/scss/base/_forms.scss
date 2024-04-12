@@ -2,7 +2,6 @@ button,
 input[type="submit"],
 input[type="reset"] {
   display: block;
-  margin: 0.5rem;
   outline: none;
   cursor: pointer;
   border-radius: 3px;
@@ -17,4 +16,24 @@ input[type="reset"] {
   color: #fff;
   background-color: #4f545c;
   transition: background-color 0.17s ease, color 0.17s ease;
+}
+
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  margin: 0.5rem 1rem;
+  width: 90%;
+  display: block;
+  justify-content: center;
+}
+
+button:active,
+input[type="submit"]:active,
+input[type="reset"]:active {
+  background-color: #707680;
 }
