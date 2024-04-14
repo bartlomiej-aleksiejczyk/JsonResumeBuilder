@@ -1,23 +1,16 @@
-FROM python:3.12.2-slim-bookworm
+FROM maven:3.9.6-eclipse-temurin-21-jammy AS builder
 
-WORKDIR /usr/src/app
+COPY src /home/app/src
+COPY pom.xml /home/app
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=Europe/Warsaw
+WORKDIR /home/app
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN mvn clean package -DskipTests
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+FROM eclipse-temurin:21.0.2_13-jre-jammy
 
-COPY . .
+COPY --from=builder /home/app/target/*jar-with-dependencies.jar app/app.jar
 
-RUN useradd -m myuser && \
-    chown -R myuser:myuser /usr/src/app
-USER myuser
+WORKDIR /app
 
-ENTRYPOINT ["celery", "-A", "task_processor", "worker"]
-CMD ["--loglevel=info"]
+CMD ["java", "-jar", "app.jar"]
