@@ -8,11 +8,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class CvBuildJobServiceTest {
@@ -51,5 +53,36 @@ public class CvBuildJobServiceTest {
         when(cvBuildJobRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, () -> cvBuildJobService.findCvBuildJobById(id));
+    }
+
+    @Test
+    public void testUpdateBuildJobStatusWithFile() throws IOException {
+        Long id = 1L;
+        JobStatus status = JobStatus.COMPLETED;
+        MultipartFile file = mock(MultipartFile.class);
+        when(file.isEmpty()).thenReturn(false);
+        when(file.getBytes()).thenReturn(new byte[] { 1, 2, 3 });
+        CvBuildJob job = new CvBuildJob();
+        when(cvBuildJobRepository.findById(id)).thenReturn(Optional.of(job));
+
+        CvBuildJob result = cvBuildJobService.updateBuildJobStatus(id, status, file);
+
+        assertEquals(JobStatus.COMPLETED, result.getStatus());
+        assertNotNull(result.getCvCompilationResult());
+        verify(cvBuildJobRepository).saveAndFlush(job);
+    }
+
+    @Test
+    public void testUpdateBuildJobStatusWithoutFile() {
+        Long id = 1L;
+        JobStatus status = JobStatus.PROCESSING;
+        CvBuildJob job = new CvBuildJob();
+        when(cvBuildJobRepository.findById(id)).thenReturn(Optional.of(job));
+
+        CvBuildJob result = cvBuildJobService.updateBuildJobStatus(id, status, null);
+
+        assertEquals(JobStatus.PROCESSING, result.getStatus());
+        assertNull(result.getCvCompilationResult());
+        verify(cvBuildJobRepository).saveAndFlush(job);
     }
 }
