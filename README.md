@@ -2,7 +2,7 @@
 
 This application generates documents from JSON data and Jinja2-to-LaTeX templates, allowing for dynamic creation of professional-looking documents.
 
-![jsondocumentbuilderd.gif](https://cubeupload.com/im/dawid8374/jsondocumentbuilderd.gif "Demonstration gif")
+![json-document-builder-demo-1.gif](demonstration/json-document-builder-demo-1.gif "Demonstration gif")
 
 ## How to Run It Locally
 
@@ -48,7 +48,7 @@ These credentials provide administrative access to the application. For security
 
 ### Sample Data
 
-For demonstration purposes, the sample data used in the application can be found in the file `SampleData.md`. Refer to this file for examples of JSON data and Latex-to-Jijna2 template for use with the application.
+For demonstration purposes, the sample data used in the application can be found in the file `/demonstration/SampleData.md`. Refer to this file for examples of JSON data and Latex-to-Jijna2 template for use with the application.
 
 By following these steps, you'll be able to run and interact with the Resume Builder application locally using Docker Compose. For further customization or development, refer to the specific service configurations within your `docker-compose-dev.yml` file.
 
