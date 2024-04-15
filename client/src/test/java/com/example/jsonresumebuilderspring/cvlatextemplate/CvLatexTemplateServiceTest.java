@@ -90,4 +90,19 @@ public class CvLatexTemplateServiceTest {
                 () -> cvLatexTemplateService.editTemplate(id, "Nowa nazwa", "Nowa tresc"));
     }
 
+    @Test
+    public void testCreateTemplate() {
+        String name = "New Template";
+        String content = "New Content";
+        CvLatexTemplate newTemplate = new CvLatexTemplate(name, content);
+        when(templateRepository.save(any(CvLatexTemplate.class))).thenReturn(newTemplate);
+
+        CvLatexTemplate result = cvLatexTemplateService.createTemplate(name, content);
+
+        assertNotNull(result);
+        assertEquals(name, result.getTemplateName());
+        assertEquals(content, result.getTemplateContent());
+        verify(templateRepository).save(any(CvLatexTemplate.class));
+    }
+
 }
