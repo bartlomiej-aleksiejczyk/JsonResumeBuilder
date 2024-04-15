@@ -1,5 +1,7 @@
 package com.example.jsonresumebuilderspring.cvbuildscheduler;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,9 +9,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.jsonresumebuilderspring.cvbuildscheduler.dtos.CvBuildJobDTO;
+import com.example.jsonresumebuilderspring.cvlatextemplate.CvLatexTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -98,4 +105,42 @@ public class CvBuildJobServiceTest {
         assertEquals(2, result.size());
         verify(cvBuildJobRepository).findAll();
     }
+
+    @Test
+    public void testPublishJob() throws Exception {
+        ReflectionTestUtils.setField(cvBuildJobService, "celeryTaskName", "task_build_cv");
+        ReflectionTestUtils.setField(cvBuildJobService, "jobExchange", "exchange");
+        ReflectionTestUtils.setField(cvBuildJobService, "jobRoutingKey", "routingKey");
+
+        CvBuildJobDTO dto = new CvBuildJobDTO();
+        dto.setTemplateId(1L);
+        dto.setJsonContent("json content");
+        CvLatexTemplate template = new CvLatexTemplate();
+        template.setTemplateContent("template content");
+
+        when(cvBuildJobLatexTemplateMediator.getTemplateById(dto.getTemplateId())).thenReturn(Optional.of(template));
+        when(cvBuildJobRepository.save(any(CvBuildJob.class))).thenAnswer(i -> i.getArgument(0));
+        when(objectMapper.writeValueAsString(any())).thenReturn("serialized job");
+
+        MessageProperties messageProperties = new MessageProperties();
+        messageProperties.setContentType(MessageProperties.CONTENT_TYPE_JSON);
+        byte[] messageBody = "serialized job".getBytes();
+        Message message = new Message(messageBody, messageProperties);
+
+        cvBuildJobService.publishJob(dto);
+
+        verify(rabbitTemplate).send(eq("exchange"), eq("routingKey"), eq(message));
+        verify(objectMapper).writeValueAsString(any());
+        verify(cvBuildJobRepository).save(any(CvBuildJob.class));
+    }
+
+    @Test
+    public void testPublishJobTemplateNotFound() {
+        CvBuildJobDTO dto = new CvBuildJobDTO();
+        dto.setTemplateId(1L);
+        when(cvBuildJobLatexTemplateMediator.getTemplateById(dto.getTemplateId())).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> cvBuildJobService.publishJob(dto));
+    }
+
 }
