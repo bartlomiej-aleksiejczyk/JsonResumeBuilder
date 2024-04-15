@@ -1,7 +1,6 @@
 package com.example.jsonresumebuilderspring.cvlatextemplate;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,8 +26,7 @@ public class CvLatexTemplateService {
         return templateRepository.save(newTemplate);
     }
 
-    //TODO: Check if name or password in request is fidderent in no deny
-    public CvLatexTemplate editTemplate(Long id, String newName ,String newContent) {
+    public CvLatexTemplate editTemplate(Long id, String newName, String newContent) {
         CvLatexTemplate oldTemplate = templateRepository.findById(id).orElseThrow();
         oldTemplate.setDeleted(true);
         templateRepository.save(oldTemplate);
