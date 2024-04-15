@@ -51,7 +51,7 @@ public class CvBuildController {
         CvBuildJob job = cvBuildJobService.findCvBuildJobById(jobId);
         String content = job.getJsonContent();
         model.addAttribute("jsonContent", content);
-        return "routes/jobs/[jobId]/cv-build-job-json-content";
+        return "routes/jobs/[job-id]/cv-build-job-json-content";
     }
 
     // TODO: Validate form
