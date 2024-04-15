@@ -1,5 +1,6 @@
 package com.example.jsonresumebuilderspring.cvlatextemplate;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class CvLatexTemplateServiceTest {
@@ -61,6 +63,31 @@ public class CvLatexTemplateServiceTest {
 
         assertFalse(result.isPresent());
         verify(templateRepository).findById(id);
+    }
+
+    @Test
+    public void testEditTemplate() {
+        Long id = 1L;
+        CvLatexTemplate oldTemplate = new CvLatexTemplate("Stara nazwa", "Stara tresc");
+        when(templateRepository.findById(id)).thenReturn(Optional.of(oldTemplate));
+        when(templateRepository.save(any(CvLatexTemplate.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        CvLatexTemplate result = cvLatexTemplateService.editTemplate(id, "Nowa nazwa", "Nowa tresc");
+
+        assertNotNull(result);
+        assertTrue(oldTemplate.isDeleted());
+        assertEquals("Nowa nazwa", result.getTemplateName());
+        verify(templateRepository).save(oldTemplate);
+        verify(templateRepository).save(any(CvLatexTemplate.class));
+    }
+
+    @Test
+    public void testEditTemplateNotFound() {
+        Long id = 1L;
+        when(templateRepository.findById(id)).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class,
+                () -> cvLatexTemplateService.editTemplate(id, "Nowa nazwa", "Nowa tresc"));
     }
 
 }
