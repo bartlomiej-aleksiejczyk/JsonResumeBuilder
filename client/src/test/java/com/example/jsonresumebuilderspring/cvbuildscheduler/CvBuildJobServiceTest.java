@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 public class CvBuildJobServiceTest {
@@ -75,14 +76,26 @@ public class CvBuildJobServiceTest {
     @Test
     public void testUpdateBuildJobStatusWithoutFile() {
         Long id = 1L;
-        JobStatus status = JobStatus.PROCESSING;
+        JobStatus status = JobStatus.IN_PROGRESS;
         CvBuildJob job = new CvBuildJob();
         when(cvBuildJobRepository.findById(id)).thenReturn(Optional.of(job));
 
         CvBuildJob result = cvBuildJobService.updateBuildJobStatus(id, status, null);
 
-        assertEquals(JobStatus.PROCESSING, result.getStatus());
+        assertEquals(JobStatus.IN_PROGRESS, result.getStatus());
         assertNull(result.getCvCompilationResult());
         verify(cvBuildJobRepository).saveAndFlush(job);
+    }
+
+    @Test
+    public void testGetAllJobs() {
+        List<CvBuildJob> jobs = List.of(new CvBuildJob(), new CvBuildJob());
+        when(cvBuildJobRepository.findAll()).thenReturn(jobs);
+
+        List<CvBuildJob> result = cvBuildJobService.getAllJobs();
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        verify(cvBuildJobRepository).findAll();
     }
 }
