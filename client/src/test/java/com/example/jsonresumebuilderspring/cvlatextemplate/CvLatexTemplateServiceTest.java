@@ -37,4 +37,29 @@ public class CvLatexTemplateServiceTest {
         assertEquals(2, result.size());
         verify(templateRepository).findByDeletedFalse();
     }
+
+    @Test
+    public void testGetTemplateByIdFound() {
+        Long id = 1L;
+        Optional<CvLatexTemplate> expectedTemplate = Optional.of(new CvLatexTemplate("nazwa", "kontent"));
+        when(templateRepository.findById(id)).thenReturn(expectedTemplate);
+
+        Optional<CvLatexTemplate> result = cvLatexTemplateService.getTemplateById(id);
+
+        assertTrue(result.isPresent());
+        assertEquals("nazwa", result.get().getTemplateName());
+        verify(templateRepository).findById(id);
+    }
+
+    @Test
+    public void testGetTemplateByIdNotFound() {
+        Long id = 1L;
+        when(templateRepository.findById(id)).thenReturn(Optional.empty());
+
+        Optional<CvLatexTemplate> result = cvLatexTemplateService.getTemplateById(id);
+
+        assertFalse(result.isPresent());
+        verify(templateRepository).findById(id);
+    }
+
 }
