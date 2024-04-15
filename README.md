@@ -1,6 +1,6 @@
 # Resume Builder Application
 
-This application generates documents from JSON data and Jinja2-to-LaTeX templates, allowing for dynamic creation of professional-looking documents.
+This application generates PDF documents from JSON data and Jinja2-to-LaTeX templates, allowing for dynamic creation of professional-looking documents.
 
 ![json-document-builder-demo-1.gif](demonstration/json-document-builder-demo-1.gif "Demonstration gif")
 
