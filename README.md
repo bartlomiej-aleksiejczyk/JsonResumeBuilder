@@ -2,7 +2,7 @@
 
 This application generates documents from JSON data and Jinja2-to-LaTeX templates, allowing for dynamic creation of professional-looking documents.
 
-![Example Image](https://cubeupload.com/im/dawid8374/jsondocumentbuilderd.gif "Demonstration gif")
+![jsondocumentbuilderd.gif](https://cubeupload.com/im/dawid8374/jsondocumentbuilderd.gif "Demonstration gif")
 
 ## How to Run It Locally
 
