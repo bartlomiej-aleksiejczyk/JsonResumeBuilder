@@ -78,7 +78,7 @@ public class CvLatexTemplateServiceTest {
         assertTrue(oldTemplate.isDeleted());
         assertEquals("Nowa nazwa", result.getTemplateName());
         verify(templateRepository).save(oldTemplate);
-        verify(templateRepository).save(any(CvLatexTemplate.class));
+        verify(templateRepository, times(2)).save(any(CvLatexTemplate.class));
     }
 
     @Test
