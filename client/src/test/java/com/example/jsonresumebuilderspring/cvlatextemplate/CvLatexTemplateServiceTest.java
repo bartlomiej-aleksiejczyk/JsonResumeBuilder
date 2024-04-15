@@ -105,4 +105,29 @@ public class CvLatexTemplateServiceTest {
         verify(templateRepository).save(any(CvLatexTemplate.class));
     }
 
+    @Test
+    public void testDeleteTemplate() {
+        Long id = 1L;
+        CvLatexTemplate template = new CvLatexTemplate("Template", "Content");
+        when(templateRepository.findById(id)).thenReturn(Optional.of(template));
+        doAnswer(invocation -> {
+            CvLatexTemplate t = invocation.getArgument(0);
+            t.setDeleted(true);
+            return null;
+        }).when(templateRepository).save(any(CvLatexTemplate.class));
+
+        cvLatexTemplateService.deleteTemplate(id);
+
+        assertTrue(template.isDeleted());
+        verify(templateRepository).save(template);
+    }
+
+    @Test
+    public void testDeleteTemplateNotFound() {
+        Long id = 1L;
+        when(templateRepository.findById(id)).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> cvLatexTemplateService.deleteTemplate(id));
+    }
+
 }
