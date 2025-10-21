@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Copier App Template
+{% endblock title %}
+
+{% block content %}
+    <div class="main-container-wrapper">
+        <aside class="main-navbar">
+            {% if request.session.selected_note_id %}
+                <a id="notes-display-mobile-icon" href="{% url 'notes:note_detail' request.session.selected_note_id %}">
+                    <div
+                            class="main-navbar__icon-wrapper
+          {% if request.resolver_match and request.resolver_match.url_name == 'note_detail' %}main-navbar__icon-wrapper--selected{% endif %}">
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="main-navbar__icon
+              {% if request.resolver_match and request.resolver_match.url_name == 'note_detail' %}main-navbar__icon--selected{% endif %}"
+                                height="24px" width="24px" viewBox="0 -960 960 960">
+                            <path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/>
+                        </svg>
+                    </div>
+                </a>
+            {% endif %}
+
+            <a href="{% url 'notes:note_list' %}">
+
+                <div
+                        class="main-navbar__icon-wrapper
+          {% if request.resolver_match and request.resolver_match.url_name == 'note_list' %}main-navbar__icon-wrapper--selected{% endif %}">
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="main-navbar__icon
+              {% if request.resolver_match and request.resolver_match.url_name == 'note_list' %}main-navbar__icon--selected{% endif %}"
+                            height="24px" width="24px" viewBox="0 -960 960 960">
+                        <path d="M320-280q17 0 28.5-11.5T360-320q0-17-11.5-28.5T320-360q-17 0-28.5 11.5T280-320q0 17 11.5 28.5T320-280Zm0-160q17 0 28.5-11.5T360-480q0-17-11.5-28.5T320-520q-17 0-28.5 11.5T280-480q0 17 11.5 28.5T320-440Zm0-160q17 0 28.5-11.5T360-640q0-17-11.5-28.5T320-680q-17 0-28.5 11.5T280-640q0 17 11.5 28.5T320-600Zm120 320h240v-80H440v80Zm0-160h240v-80H440v80Zm0-160h240v-80H440v80ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z"></path>
+                    </svg>
+                </div>
+            </a>
+
+            <a href="{% url 'notes:directory_list' %}">
+                <div
+                        class="main-navbar__icon-wrapper
+          {% if request.resolver_match and request.resolver_match.url_name == 'directory_list' %}main-navbar__icon-wrapper--selected{% endif %}">
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="main-navbar__icon
+              {% if request.resolver_match and request.resolver_match.url_name == 'directory_list' %}main-navbar__icon--selected{% endif %}"
+                            height="24px" width="24px" viewBox="0 -960 960 960">
+                        <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z"/>
+                    </svg>
+                </div>
+            </a>
+            <a href="#" onclick="document.getElementById('logout-form').submit();">
+                <div class="main-navbar__icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="main-navbar__icon"
+                         height="24px" width="24px"
+                         viewBox="0 -960 960 960">
+                        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"></path>
+                    </svg>
+                </div>
+            </a>
+            <form id="logout-form" action="{% url 'common:logout' %}" method="post" class="hidden">
+                {% csrf_token %}
+            </form>
+        </aside>
+
+
+        {% block page_specific_content %}
+        {% endblock page_specific_content %}
+
+    </div>
+{% endblock content %}

@@ -1,0 +1,62 @@
+{% load static %}
+{% load client_components_integration %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta Data -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon.ico' %}">
+    {% load_client_components %}
+    {% block meta %}
+        <script src=" https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js "></script>
+        <script src="https://cdn.jsdelivr.net/npm/unpoly@3.10.2/unpoly.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/unpoly@3.10.2/unpoly.min.css">    
+    {% endblock meta %}
+    <title>
+        {% block title %}
+            Offline capable notes
+        {% endblock title %}
+    </title>
+    <!-- Stylesheets -->
+    {% block stylesheets %}
+        <!-- Additional default CSS files can be added here -->
+    {% endblock stylesheets %}
+    {% block extracss %}
+        <!-- Extra CSS specific to a page can be added here -->
+    {% endblock extracss %}
+    <!-- Extra Head Content -->
+    {% block extrahead %}
+        <!-- Additional head content (e.g., scripts, meta tags) -->
+    {% endblock extrahead %}
+</head>
+<body class="hidden-until-js">
+<!-- Header -->
+{% block header %}
+    <!-- Optional header content -->
+{% endblock header %}
+<!-- Navigation Bar -->
+{% block navbar %}
+    <!-- Default navbar content -->
+{% endblock navbar %}
+<!-- Main Content -->
+<main>
+    {% block content %}
+        <!-- Page-specific content goes here -->
+    {% endblock content %}
+</main>
+<!-- Footer -->
+{% block footer %}
+    <!-- Optional footer content -->
+{% endblock footer %}
+<!-- Scripts -->
+{% block inlinecss %}
+{% endblock inlinecss %}
+
+{% block scripts %}
+{% endblock scripts %}
+{% block extrajs %}
+    <!-- Extra JavaScript specific to a page can be added here -->
+{% endblock extrajs %}
+</body>
+</html>
